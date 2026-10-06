@@ -48,11 +48,13 @@
 
   .hidden { display: none !important; }
 
-  /* منو */
   #menu { text-align: center; margin-top: 20px; }
   #menu .section { margin: 10px 0; }
   #menu label { font-size: 0.9rem; opacity: 0.9; }
-  #status { margin-top: 16px; font-size: 1rem; color: #ffeb3b; min-height: 22px; }
+  #status {
+    margin-top: 16px; font-size: 0.95rem; color: #ffeb3b;
+    min-height: 22px; white-space: pre-line; line-height: 1.7;
+  }
   #status code {
     background: rgba(0,0,0,0.4); padding: 4px 10px;
     border-radius: 6px; font-size: 1.3rem; letter-spacing: 3px;
@@ -320,7 +322,6 @@
 <body>
 <div id="app">
 
-  <!-- منو -->
   <div id="menu">
     <h1>🃏 حکم حرفه‌ای</h1>
 
@@ -357,7 +358,6 @@
 
     <p id="status"></p>
 
-    <!-- لابی -->
     <div id="lobby" class="hidden">
       <h3>⏳ اتاق انتظار</h3>
       <p>بازیکنان: <span id="connectedCount">1</span> / <span id="totalCount">4</span></p>
@@ -367,7 +367,6 @@
     </div>
   </div>
 
-  <!-- بازی -->
   <div id="game">
     <div class="info" id="info"></div>
     <div class="opponents" id="opponents"></div>
@@ -387,7 +386,6 @@
   </div>
 </div>
 
-<!-- چت -->
 <button id="chatBtn" title="چت">💬</button>
 <div id="chatPanel">
   <div id="chatHeader">
@@ -401,7 +399,6 @@
   </div>
 </div>
 
-<!-- مودال -->
 <div id="modal" class="modal hidden">
   <div class="box" id="modalBox"></div>
 </div>
@@ -409,8 +406,6 @@
 <script>
 /* ============================================================
    🔑 رمز ساخت اتاق
-   ------------------------------------------------------------
-   برای تغییر رمز، فقط همین یک خط را عوض کن.
    ============================================================ */
 const CREATE_ROOM_PASSWORD = "138500";
 /* ============================================================ */
@@ -523,7 +518,6 @@ document.getElementById('createBtn').onclick = () => {
   initAudio();
   saveName();
 
-  // نمایش مودال رمز
   showModal(`
     <h2>🔒 رمز ساخت اتاق</h2>
     <p class="hint">برای ساخت اتاق، رمز را وارد کن</p>
@@ -614,18 +608,57 @@ document.getElementById('joinBtn').onclick = () => {
   saveName();
 
   const code = document.getElementById('roomInput').value.trim();
-  if (!code) return alert('کد اتاق رو وارد کن');
+  const statusEl = document.getElementById('status');
+  const btn = document.getElementById('joinBtn');
 
-  peer = new Peer({ debug: 0 });
+  if (!code) { alert('کد اتاق رو وارد کن'); return; }
+  if (code.length !== 4 || !/^\d+$/.test(code)) {
+    alert('کد اتاق باید ۴ رقم باشه');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ در حال اتصال...';
+  statusEl.textContent = '⏳ در حال اتصال به اتاق ' + code + '...';
+
+  let connected = false;
+  const timeout = setTimeout(() => {
+    if (connected) return;
+    if (peer) { try { peer.destroy(); } catch(e){} }
+    statusEl.textContent =
+      '❌ اتصال برقرار نشد (وقفه ۱۰ ثانیه‌ای)\n' +
+      'دلایل احتمالی:\n' +
+      '• کد اتاق اشتباه است\n' +
+      '• میزبان صفحه را بسته یا رفرش کرده\n' +
+      '• اینترنت یکی از طرفین ضعیف است';
+    btn.disabled = false;
+    btn.textContent = '🚪 ورود به اتاق';
+  }, 10000);
+
+  try {
+    peer = new Peer({ debug: 0 });
+  } catch(e) {
+    clearTimeout(timeout);
+    statusEl.textContent = '❌ خطا در ساخت اتصال: ' + e.message;
+    btn.disabled = false;
+    btn.textContent = '🚪 ورود به اتاق';
+    return;
+  }
+
   peer.on('open', () => {
+    statusEl.textContent = '⏳ اتصال به میزبان...';
     myConn = peer.connect('hokm-'+code, { reliable: true });
+
     myConn.on('open', () => {
+      connected = true;
+      clearTimeout(timeout);
       isHost = false;
       myConn.send({ type: 'hello', playerId: MY_ID, name: myName });
       document.getElementById('menu').style.display = 'none';
       document.getElementById('game').style.display = 'block';
       document.getElementById('message').textContent = 'وصل شدی! منتظر شروع...';
     });
+
     myConn.on('data', (data) => {
       if (data.type === 'state') {
         currentView = data.view;
@@ -636,12 +669,34 @@ document.getElementById('joinBtn').onclick = () => {
           <button onclick="location.reload()">بستن</button>`);
       }
     });
+
     myConn.on('close', () => {
       document.getElementById('message').textContent = 'اتصال قطع شد...';
     });
+
+    myConn.on('error', (err) => {
+      clearTimeout(timeout);
+      statusEl.textContent = '❌ خطای اتصال: ' + (err.message || err);
+      btn.disabled = false;
+      btn.textContent = '🚪 ورود به اتاق';
+    });
   });
+
   peer.on('error', err => {
-    document.getElementById('status').textContent = 'خطا: ' + err.message;
+    clearTimeout(timeout);
+    let msg = err.message || 'خطای ناشناخته';
+    if (err.type === 'peer-unavailable') {
+      msg = '❌ اتاق با این کد پیدا نشد.\n' +
+            '• کد رو دقیق چک کن\n' +
+            '• از میزبان بخواه اتاق جدید بسازه';
+    } else if (err.type === 'network') {
+      msg = '❌ مشکل اینترنت. اتصال رو چک کن.';
+    } else if (err.type === 'server-error') {
+      msg = '❌ سرور شلوغه. چند دقیقه دیگه امتحان کن.';
+    }
+    statusEl.textContent = msg;
+    btn.disabled = false;
+    btn.textContent = '🚪 ورود به اتاق';
   });
 };
 
