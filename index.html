@@ -11,6 +11,13 @@
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw-v5.js').catch(() => {});
+    });
+  }
+</script>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -101,7 +108,6 @@
   }
   .opponent .count { font-size: 0.7rem; opacity: 0.85; }
 
-  /* ====== پشت کارت پاسور ====== */
   .card-back {
     display: inline-block;
     width: 30px; height: 42px;
@@ -160,17 +166,18 @@
     line-height: 1;
     transition: transform 0.15s, box-shadow 0.15s;
     animation: cardDrop 0.35s ease;
+    cursor: pointer;
   }
   .card.red { color: #c62828; }
   .card .rank-big { font-size: 1.5rem; font-weight: bold; margin-bottom: 2px; }
   .card .suit-big { font-size: 2.1rem; line-height: 1; }
-  .table .card { width: 70px; height: 96px; box-shadow: 0 4px 0 #999, 0 5px 12px rgba(0,0,0,0.5); }
+  .table .card { width: 70px; height: 96px; box-shadow: 0 4px 0 #999, 0 5px 12px rgba(0,0,0,0.5); cursor: default; }
   .table .card .rank-big { font-size: 1.7rem; }
   .table .card .suit-big { font-size: 2.5rem; }
 
-  .hand .card.playable { outline: 3px solid #ffeb3b; cursor: pointer; animation: pulse 1.5s infinite; }
-  .hand .card.playable:hover, .hand .card.playable:active { transform: translateY(-8px); box-shadow: 0 8px 0 #999, 0 10px 16px rgba(0,0,0,0.5); }
-  .hand .card.disabled { opacity: 0.55; }
+  .hand .card.playable { outline: 3px solid #ffeb3b; animation: pulse 1.5s infinite; }
+  .hand .card.playable:active { transform: translateY(-8px); box-shadow: 0 8px 0 #999, 0 10px 16px rgba(0,0,0,0.5); }
+  .hand .card.disabled { opacity: 0.55; cursor: not-allowed; }
 
   @keyframes pulse {
     0%,100% { box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4), 0 0 0 0 rgba(255,235,59,0.6); }
@@ -317,12 +324,6 @@ let videoStream = null;
 let animationFrame = null;
 let scanCallback = null;
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
-
 function getOrCreateId() {
   let id = localStorage.getItem('hokm_id');
   if (!id) {
@@ -389,7 +390,6 @@ function cardHTML(card, opts={}) {
   </div>`;
 }
 
-/* ============ پشت کارت برای حریف‌ها ============ */
 function cardBacksHTML(count, maxShow=5) {
   const show = Math.min(count, maxShow);
   let html = '';
@@ -428,7 +428,6 @@ function sendToHost(data) {
   }
 }
 
-/* ============ ONLINE CREATE ============ */
 document.getElementById('createBtn').onclick = () => {
   initAudio(); saveName();
   showModal(`
@@ -513,7 +512,6 @@ function saveName() {
   myName = v; localStorage.setItem('hokm_name', v);
 }
 
-/* ============ ONLINE JOIN ============ */
 document.getElementById('joinBtn').onclick = () => {
   initAudio(); saveName();
   isOfflineMode = false;
@@ -626,7 +624,6 @@ function updateLobby() {
     connected >= playerCount ? '✅ همه حاضرند! شروع کن' : `منتظر ${playerCount - connected} بازیکن...`;
 }
 
-/* ============ OFFLINE HOST ============ */
 document.getElementById('createOfflineBtn').onclick = () => {
   initAudio(); saveName();
   showModal(`
@@ -805,7 +802,6 @@ function startHostAnswerScan() {
   openCameraAndScan();
 }
 
-/* ============ OFFLINE GUEST ============ */
 document.getElementById('joinOfflineBtn').onclick = () => {
   initAudio(); saveName();
   isOfflineMode = true;
@@ -887,7 +883,6 @@ async function guestHandleOffer(sdp, hostSlot) {
   myIndex = hostSlot;
 }
 
-/* ============ QR CAMERA + SCAN ============ */
 async function openCameraAndScan() {
   stopQRCamera();
   const video = document.getElementById('qrReader');
@@ -949,7 +944,6 @@ function generateQR(elementId, data) {
   }
 }
 
-/* ============ فشرده‌سازی SDP ============ */
 function compressSDP(sdp) {
   const get = (re) => {
     const m = sdp.match(re);
@@ -1013,7 +1007,6 @@ function decompressSDP(str) {
   return lines.join('\r\n') + '\r\n';
 }
 
-/* ============ START ROUND ============ */
 document.getElementById('startBtn').onclick = () => startNewRound(true);
 
 function pickNextHakem() {
@@ -1316,10 +1309,16 @@ function render(view) {
     });
     const cardEl = wrapper.firstElementChild;
     if (playable) {
-      cardEl.onclick = () => {
+      cardEl.addEventListener('click', (ev) => {
+        ev.preventDefault();
         if (isHost) playCard(my, card.id);
         else sendToHost({ type: 'playCard', cardId: card.id });
-      };
+      });
+      cardEl.addEventListener('touchstart', (ev) => {
+        ev.preventDefault();
+        if (isHost) playCard(my, card.id);
+        else sendToHost({ type: 'playCard', cardId: card.id });
+      }, { passive: false });
     }
     handEl.appendChild(cardEl);
   });
