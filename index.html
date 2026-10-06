@@ -113,7 +113,6 @@
   .my-label .score b { color: #ffeb3b; }
   .hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 80px; }
 
-  /* ===== کارت‌ها — شبیه دکمه‌های حکم ===== */
   .card {
     position: relative;
     width: 58px; height: 80px;
@@ -133,19 +132,9 @@
     transition: transform 0.15s, box-shadow 0.15s;
   }
   .card.red { color: #c62828; }
-  .card .rank-big {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-  .card .suit-big {
-    font-size: 2.1rem;
-    line-height: 1;
-  }
-  .table .card {
-    width: 70px; height: 96px;
-    box-shadow: 0 4px 0 #999, 0 5px 12px rgba(0,0,0,0.5);
-  }
+  .card .rank-big { font-size: 1.5rem; font-weight: bold; margin-bottom: 2px; }
+  .card .suit-big { font-size: 2.1rem; line-height: 1; }
+  .table .card { width: 70px; height: 96px; box-shadow: 0 4px 0 #999, 0 5px 12px rgba(0,0,0,0.5); }
   .table .card .rank-big { font-size: 1.7rem; }
   .table .card .suit-big { font-size: 2.5rem; }
 
@@ -546,15 +535,35 @@ function handleDataFromClient(slot, data) {
   }
 }
 
+/* ============ initState — اصلاح شده ============ */
 function initState() {
+  const emptyHands = {};
+  for (let i = 0; i < playerCount; i++) emptyHands[i] = [];
+
   state = {
-    phase: 'lobby', playerCount, targetScore,
+    phase: 'lobby',
+    playerCount,
+    targetScore,
     players: Array.from({length: playerCount}, (_,i) => ({
       playerId: i === 0 ? MY_ID : null,
       name: i === 0 ? myName : null,
       connected: i === 0
     })),
-    chat: []
+    chat: [],
+    hands: emptyHands,
+    pendingHands: null,
+    trump: null,
+    hakem: 0,
+    turn: 0,
+    trick: [],
+    tricksWon: Array(playerCount).fill(0),
+    trickNumber: 0,
+    totalTricks: 0,
+    gameScore: playerCount === 4 ? [0, 0] : Array(playerCount).fill(0),
+    message: '',
+    roundWinner: null,
+    matchWinner: null,
+    lastTrickWinner: null
   };
 }
 
@@ -691,6 +700,9 @@ function finishOfflineSetup() {
   state.playerCount = actual;
   state.players = state.players.slice(0, actual);
   state.gameScore = actual === 4 ? [0, 0] : Array(actual).fill(0);
+  state.hands = {};
+  state.tricksWon = Array(actual).fill(0);
+  for (let i = 0; i < actual; i++) state.hands[i] = [];
   hideModal();
   document.getElementById('totalCount').textContent = actual;
   document.getElementById('startBtn').disabled = false;
@@ -898,7 +910,7 @@ function generateQR(elementId, data) {
   }
 }
 
-/* ============ فشرده‌سازی SDP (نسخه سبک) ============ */
+/* ============ فشرده‌سازی SDP ============ */
 function compressSDP(sdp) {
   const get = (re) => {
     const m = sdp.match(re);
@@ -1024,14 +1036,14 @@ function startNewRound(isFirst=false) {
 function makeView(p) {
   const oppCounts = {};
   for (let i = 0; i < state.playerCount; i++)
-    if (i !== p) oppCounts[i] = state.hands[i].length;
+    if (i !== p) oppCounts[i] = (state.hands[i] || []).length;
   return {
     phase: state.phase, playerCount: state.playerCount,
     targetScore: state.targetScore, players: state.players,
     trump: state.trump, turn: state.turn, trick: state.trick,
     tricksWon: state.tricksWon, trickNumber: state.trickNumber,
     totalTricks: state.totalTricks, gameScore: state.gameScore,
-    message: state.message, myHand: state.hands[p],
+    message: state.message, myHand: state.hands[p] || [],
     opponentCounts: oppCounts, hakem: state.hakem, myIndex: p,
     roundWinner: state.roundWinner, matchWinner: state.matchWinner,
     lastTrickWinner: state.lastTrickWinner, chat: state.chat
