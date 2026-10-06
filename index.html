@@ -8,8 +8,6 @@
 <meta name="theme-color" content="#1b5e20">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="حکم">
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
@@ -19,54 +17,35 @@
   body {
     font-family: Tahoma, sans-serif;
     background: radial-gradient(circle at 50% 0%, #2e7d32, #0a2e10 80%);
-    color: #fff;
-    margin: 0; padding: 8px;
-    min-height: 100vh;
-    overflow-x: hidden;
+    color: #fff; margin: 0; padding: 8px;
+    min-height: 100vh; overflow-x: hidden;
   }
   #app { max-width: 720px; margin: 0 auto; }
   h1 { font-size: 1.7rem; text-align: center; margin: 12px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
   h2 { font-size: 1.4rem; text-align: center; margin: 10px 0; }
   h3 { text-align: center; margin: 8px 0; }
-
   button {
-    font-family: inherit;
-    padding: 10px 16px;
+    font-family: inherit; padding: 10px 16px;
     border: none; border-radius: 10px;
     background: linear-gradient(180deg, #ffc107, #ff9800);
-    color: #222; font-weight: bold;
-    margin: 4px; cursor: pointer;
+    color: #222; font-weight: bold; margin: 4px; cursor: pointer;
     font-size: 0.95rem;
     box-shadow: 0 3px 0 #b26a00, 0 4px 8px rgba(0,0,0,0.3);
   }
   button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #b26a00; }
   button:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: 0 3px 0 #555; }
-  button.primary {
-    background: linear-gradient(180deg, #66bb6a, #388e3c);
-    color: #fff; box-shadow: 0 3px 0 #1b5e20;
-  }
-  button.blue {
-    background: linear-gradient(180deg, #42a5f5, #1565c0);
-    color: #fff; box-shadow: 0 3px 0 #0d3d7a;
-  }
-  button.gray {
-    background: linear-gradient(180deg, #757575, #424242);
-    color: #fff; box-shadow: 0 3px 0 #222;
-  }
-
+  button.primary { background: linear-gradient(180deg, #66bb6a, #388e3c); color: #fff; box-shadow: 0 3px 0 #1b5e20; }
+  button.blue { background: linear-gradient(180deg, #42a5f5, #1565c0); color: #fff; box-shadow: 0 3px 0 #0d3d7a; }
+  button.gray { background: linear-gradient(180deg, #757575, #424242); color: #fff; box-shadow: 0 3px 0 #222; }
   input, select {
-    padding: 10px 12px;
-    border-radius: 10px;
+    padding: 10px 12px; border-radius: 10px;
     border: 2px solid #1b5e20;
     width: 170px; text-align: center;
     font-size: 1rem; font-family: inherit;
-    background: #fff; color: #222; outline: none;
-    margin: 4px;
+    background: #fff; color: #222; outline: none; margin: 4px;
   }
   input:focus, select:focus { border-color: #ffb300; }
-
   .hidden { display: none !important; }
-
   #menu { text-align: center; margin-top: 20px; }
   #menu .section { margin: 10px 0; }
   #menu label { font-size: 0.9rem; opacity: 0.9; }
@@ -79,12 +58,10 @@
     border-radius: 6px; font-size: 1.3rem; letter-spacing: 3px;
     display: inline-block;
   }
-
   #lobby {
     background: rgba(0,0,0,0.35);
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    padding: 16px; margin-top: 16px;
+    border-radius: 14px; padding: 16px; margin-top: 16px;
   }
   #lobbyList {
     list-style: none; padding: 0; margin: 12px 0;
@@ -99,279 +76,109 @@
   #lobbyList li.disconnected { opacity: 0.5; }
   #lobbyList li.self { outline: 2px solid #ffeb3b; }
   .hint { font-size: 0.85rem; opacity: 0.8; }
-
   #game { display: none; }
   .info {
-    background: rgba(0,0,0,0.4);
-    padding: 8px; border-radius: 10px;
+    background: rgba(0,0,0,0.4); padding: 8px; border-radius: 10px;
     margin-bottom: 6px; text-align: center;
     font-size: 0.85rem; line-height: 1.6;
     border: 1px solid rgba(255,255,255,0.08);
   }
   .info b { color: #ffeb3b; }
-
-  .opponents {
-    display: flex; justify-content: space-around; gap: 6px;
-    margin: 6px 0;
-  }
+  .opponents { display: flex; justify-content: space-around; gap: 6px; margin: 6px 0; }
   .opponent {
     text-align: center; flex: 1;
-    background: rgba(0,0,0,0.25);
-    border-radius: 10px; padding: 6px 4px;
+    background: rgba(0,0,0,0.25); border-radius: 10px; padding: 6px 4px;
     transition: background 0.3s, transform 0.3s;
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .opponent.turn {
-    background: rgba(255,179,0,0.4);
-    transform: translateY(-2px);
-    box-shadow: 0 0 12px rgba(255,179,0,0.6);
-  }
+  .opponent.turn { background: rgba(255,179,0,0.4); transform: translateY(-2px); box-shadow: 0 0 12px rgba(255,179,0,0.6); }
   .opponent .name { font-size: 0.8rem; margin-bottom: 2px; font-weight: bold; }
-  .opponent .score {
-    font-size: 0.7rem; margin-bottom: 4px;
-    background: rgba(0,0,0,0.35);
-    border-radius: 10px; padding: 2px 6px;
-    display: inline-block;
-  }
+  .opponent .score { font-size: 0.7rem; margin-bottom: 4px; background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 6px; display: inline-block; }
   .opponent .score b { color: #ffeb3b; }
-  .opponent .cards {
-    font-size: 1.1rem; letter-spacing: 0; line-height: 1;
-    direction: ltr; margin: 2px 0;
-  }
+  .opponent .cards { font-size: 1.1rem; letter-spacing: 0; line-height: 1; direction: ltr; margin: 2px 0; }
   .opponent .count { font-size: 0.7rem; opacity: 0.85; }
-
   .table {
     background: linear-gradient(180deg, #2e7d32, #1b5e20);
-    border: 2px solid #81c784;
-    border-radius: 14px;
-    min-height: 130px;
-    display: flex; justify-content: center; align-items: center;
-    gap: 14px; margin: 8px 0; padding: 10px;
-    flex-wrap: wrap;
+    border: 2px solid #81c784; border-radius: 14px;
+    min-height: 130px; display: flex; justify-content: center; align-items: center;
+    gap: 14px; margin: 8px 0; padding: 10px; flex-wrap: wrap;
     box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
   }
   .trick-card { text-align: center; animation: cardDrop 0.3s ease; }
-  .trick-card.winner .card {
-    outline: 3px solid #ffeb3b;
-    box-shadow: 0 0 18px #ffeb3b;
-  }
-  .trick-player {
-    font-size: 0.7rem; margin-bottom: 3px; opacity: 0.9;
-    font-weight: bold;
-  }
-
-  .my-area {
-    margin-top: 8px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 12px;
-    padding: 8px 6px;
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.3s;
-  }
-  .my-area.turn {
-    background: rgba(255,179,0,0.2);
-    box-shadow: 0 0 14px rgba(255,179,0,0.5);
-  }
-  .my-label {
-    text-align: center; font-size: 0.85rem;
-    margin-bottom: 6px; font-weight: bold;
-  }
-  .my-label .score {
-    background: rgba(0,0,0,0.35);
-    border-radius: 10px; padding: 2px 8px;
-    margin-right: 6px; font-size: 0.75rem;
-    display: inline-block;
-  }
+  .trick-card.winner .card { outline: 3px solid #ffeb3b; box-shadow: 0 0 18px #ffeb3b; }
+  .trick-player { font-size: 0.7rem; margin-bottom: 3px; opacity: 0.9; font-weight: bold; }
+  .my-area { margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 12px; padding: 8px 6px; border: 1px solid rgba(255,255,255,0.06); transition: background 0.3s; }
+  .my-area.turn { background: rgba(255,179,0,0.2); box-shadow: 0 0 14px rgba(255,179,0,0.5); }
+  .my-label { text-align: center; font-size: 0.85rem; margin-bottom: 6px; font-weight: bold; }
+  .my-label .score { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 8px; margin-right: 6px; font-size: 0.75rem; display: inline-block; }
   .my-label .score b { color: #ffeb3b; }
-
-  .hand {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 5px; min-height: 70px;
-  }
-
+  .hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; min-height: 70px; }
   .card {
-    position: relative;
-    width: 52px; height: 74px;
+    position: relative; width: 52px; height: 74px;
     background: #fff; border-radius: 7px;
     border: 1px solid #999;
     box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.5);
-    color: #111;
-    font-family: 'Arial', 'Tahoma', sans-serif;
-    user-select: none;
-    flex-shrink: 0;
+    color: #111; font-family: Arial, Tahoma, sans-serif;
+    user-select: none; flex-shrink: 0;
     transition: transform 0.15s, box-shadow 0.15s;
   }
   .card.red { color: #c62828; }
-  .card .corner {
-    position: absolute;
-    display: flex; flex-direction: column;
-    align-items: center; line-height: 0.9;
-    font-weight: bold;
-  }
+  .card .corner { position: absolute; display: flex; flex-direction: column; align-items: center; line-height: 0.9; font-weight: bold; }
   .card .corner.tl { top: 3px; right: 4px; font-size: 0.72rem; }
   .card .corner.br { bottom: 3px; left: 4px; font-size: 0.72rem; transform: rotate(180deg); }
   .card .corner .rank { font-size: 0.78rem; }
   .card .corner .suit-sm { font-size: 0.75rem; }
-  .card .center-suit {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.9rem; opacity: 0.95;
-  }
+  .card .center-suit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.9rem; opacity: 0.95; }
   .table .card { width: 60px; height: 86px; }
   .table .card .center-suit { font-size: 2.3rem; }
-
-  .hand .card.playable {
-    outline: 3px solid #ffeb3b;
-    cursor: pointer;
-    animation: pulse 1.5s infinite;
-  }
-  .hand .card.playable:hover,
-  .hand .card.playable:active { transform: translateY(-8px); }
+  .hand .card.playable { outline: 3px solid #ffeb3b; cursor: pointer; animation: pulse 1.5s infinite; }
+  .hand .card.playable:hover, .hand .card.playable:active { transform: translateY(-8px); }
   .hand .card.disabled { opacity: 0.55; }
-
   @keyframes pulse {
     0%,100% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 0 0 0 rgba(255,235,59,0.6); }
     50% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 0 0 8px rgba(255,235,59,0); }
   }
-  @keyframes cardDrop {
-    from { transform: translateY(-30px) scale(0.7); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-  }
+  @keyframes cardDrop { from { transform: translateY(-30px) scale(0.7); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes popIn {
-    0% { transform: scale(0.6); opacity: 0; }
-    60% { transform: scale(1.05); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .trump-chooser {
-    text-align: center; margin: 10px 0; padding: 12px;
-    background: rgba(0,0,0,0.45); border-radius: 12px;
-    animation: popIn 0.4s ease;
-  }
+  @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  .trump-chooser { text-align: center; margin: 10px 0; padding: 12px; background: rgba(0,0,0,0.45); border-radius: 12px; animation: popIn 0.4s ease; }
   .trump-chooser p { margin: 0 0 8px; font-size: 0.95rem; }
-  .trump-chooser button {
-    font-size: 1.8rem; padding: 6px 14px;
-    background: #fff; color: #000;
-    box-shadow: 0 3px 0 #666;
-    min-width: 50px;
-  }
-  .trump-chooser button[data-suit="♥"],
-  .trump-chooser button[data-suit="♦"] { color: #c62828; }
-
-  .message {
-    text-align: center; margin-top: 10px;
-    min-height: 24px; color: #ffeb3b; font-weight: bold;
-    font-size: 0.95rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-  }
-
-  #chatBtn {
-    position: fixed; bottom: 14px; left: 14px;
-    width: 50px; height: 50px; border-radius: 50%;
-    background: linear-gradient(180deg, #2196f3, #1565c0);
-    color: #fff; font-size: 1.3rem; padding: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    z-index: 100;
-  }
-  #chatPanel {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: #1a1a1a;
-    border-top: 2px solid #ffb300;
-    border-radius: 16px 16px 0 0;
-    max-height: 60vh; display: flex; flex-direction: column;
-    z-index: 101;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
-  }
+  .trump-chooser button { font-size: 1.8rem; padding: 6px 14px; background: #fff; color: #000; box-shadow: 0 3px 0 #666; min-width: 50px; }
+  .trump-chooser button[data-suit="♥"], .trump-chooser button[data-suit="♦"] { color: #c62828; }
+  .message { text-align: center; margin-top: 10px; min-height: 24px; color: #ffeb3b; font-weight: bold; font-size: 0.95rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+  #chatBtn { position: fixed; bottom: 14px; left: 14px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(180deg, #2196f3, #1565c0); color: #fff; font-size: 1.3rem; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.4); z-index: 100; }
+  #chatPanel { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 2px solid #ffb300; border-radius: 16px 16px 0 0; max-height: 60vh; display: flex; flex-direction: column; z-index: 101; transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); }
   #chatPanel.open { transform: translateY(0); }
-  #chatHeader {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 14px; border-bottom: 1px solid #333;
-  }
-  #chatHeader button {
-    padding: 4px 10px; font-size: 0.85rem;
-    background: #444; color: #fff; box-shadow: none;
-  }
-  #chatMessages {
-    flex: 1; overflow-y: auto; padding: 10px 14px;
-    display: flex; flex-direction: column; gap: 6px;
-    min-height: 120px;
-  }
-  .chat-msg {
-    background: #2a2a2a; padding: 6px 10px;
-    border-radius: 10px; font-size: 0.9rem;
-    max-width: 80%; word-wrap: break-word;
-  }
+  #chatHeader { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid #333; }
+  #chatHeader button { padding: 4px 10px; font-size: 0.85rem; background: #444; color: #fff; box-shadow: none; }
+  #chatMessages { flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; min-height: 120px; }
+  .chat-msg { background: #2a2a2a; padding: 6px 10px; border-radius: 10px; font-size: 0.9rem; max-width: 80%; word-wrap: break-word; }
   .chat-msg.self { background: #2e7d32; align-self: flex-end; }
   .chat-msg .sender { font-size: 0.75rem; color: #ffb300; font-weight: bold; }
-  #chatInput {
-    display: flex; padding: 8px; border-top: 1px solid #333; gap: 6px;
-  }
+  #chatInput { display: flex; padding: 8px; border-top: 1px solid #333; gap: 6px; }
   #chatInput input { flex: 1; width: auto; text-align: right; }
-
-  .modal {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 200; padding: 16px;
-    animation: fadeIn 0.3s;
-    overflow-y: auto;
-  }
-  .modal .box {
-    background: linear-gradient(180deg, #1b5e20, #0a2e10);
-    border: 2px solid #ffb300;
-    border-radius: 16px;
-    padding: 20px; text-align: center;
-    max-width: 450px; width: 100%;
-    animation: popIn 0.4s ease;
-    box-shadow: 0 0 40px rgba(255,179,0,0.5);
-    margin: auto;
-  }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 200; padding: 16px; animation: fadeIn 0.3s; overflow-y: auto; }
+  .modal .box { background: linear-gradient(180deg, #1b5e20, #0a2e10); border: 2px solid #ffb300; border-radius: 16px; padding: 20px; text-align: center; max-width: 450px; width: 100%; animation: popIn 0.4s ease; box-shadow: 0 0 40px rgba(255,179,0,0.5); margin: auto; }
   .modal h2 { margin: 0 0 12px; font-size: 1.5rem; }
   .modal p { margin: 8px 0; line-height: 1.6; }
   .score-line { font-size: 1.05rem; margin: 12px 0; }
   .modal input { width: 100%; font-size: 1.1rem; margin: 10px 0; }
   .modal .err { color: #ff5252; font-size: 0.85rem; min-height: 18px; margin-top: 6px; }
-
-  /* QR */
-  .qr-wrap {
-    background: #fff; padding: 12px; border-radius: 12px;
-    margin: 12px auto; display: inline-block;
-  }
-  .qr-wrap svg, .qr-wrap img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-  #qrReader {
-    width: 100%; max-width: 400px;
-    border-radius: 12px;
-    background: #000;
-    margin: 10px auto;
-    display: block;
-  }
+  .qr-wrap { background: #fff; padding: 12px; border-radius: 12px; margin: 10px auto; display: inline-block; }
+  .qr-wrap svg, .qr-wrap img { display: block; max-width: 100%; height: auto; }
+  #qrReader { width: 100%; max-width: 300px; border-radius: 12px; background: #000; margin: 8px auto; display: block; }
   .qr-box { text-align: center; }
-  .step-badge {
-    display: inline-block;
-    background: #ffb300; color: #000;
-    padding: 3px 10px; border-radius: 20px;
-    font-size: 0.8rem; font-weight: bold;
-    margin-bottom: 8px;
-  }
+  .step-badge { display: inline-block; background: #ffb300; color: #000; padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; }
+  .slot-badge { display: inline-block; background: #42a5f5; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; margin: 4px; }
 </style>
 </head>
 <body>
 <div id="app">
-
   <div id="menu">
     <h1>🃏 حکم حرفه‌ای</h1>
-
     <div class="section">
       <input id="nameInput" placeholder="اسم شما" maxlength="12">
     </div>
-
     <div class="section">
       <label>تعداد بازیکن: </label>
       <select id="playerCountSelect">
@@ -380,7 +187,6 @@
         <option value="4" selected>۴ نفره (تیمی)</option>
       </select>
     </div>
-
     <div class="section">
       <label>امتیاز تا: </label>
       <select id="targetScoreSelect">
@@ -389,7 +195,6 @@
         <option value="7" selected>۷</option>
       </select>
     </div>
-
     <div class="section">
       <h3 style="margin-top:20px;font-size:1.1rem;">🌐 بازی آنلاین (با اینترنت)</h3>
       <button id="createBtn" class="primary">🏠 ساخت اتاق</button>
@@ -398,16 +203,13 @@
         <button id="joinBtn">🚪 ورود</button>
       </div>
     </div>
-
     <div class="section">
       <h3 style="margin-top:20px;font-size:1.1rem;">📡 بازی آفلاین (بدون اینترنت)</h3>
-      <p class="hint" style="margin:4px 0;">هر دو به یک هات‌اسپات وصل باشید</p>
+      <p class="hint" style="margin:4px 0;">همه به یک هات‌اسپات وصل باشید</p>
       <button id="createOfflineBtn" class="blue">📷 ساخت اتاق آفلاین</button>
       <button id="joinOfflineBtn" class="blue">📷 ورود آفلاین</button>
     </div>
-
     <p id="status"></p>
-
     <div id="lobby" class="hidden">
       <h3>⏳ اتاق انتظار</h3>
       <p>بازیکنان: <span id="connectedCount">1</span> / <span id="totalCount">4</span></p>
@@ -416,7 +218,6 @@
       <p class="hint" id="lobbyHint">منتظر بقیه بازیکنان...</p>
     </div>
   </div>
-
   <div id="game">
     <div class="info" id="info"></div>
     <div class="opponents" id="opponents"></div>
@@ -435,7 +236,6 @@
     <div class="message" id="message"></div>
   </div>
 </div>
-
 <button id="chatBtn" title="چت">💬</button>
 <div id="chatPanel">
   <div id="chatHeader">
@@ -448,18 +248,12 @@
     <button id="chatSend" class="primary">ارسال</button>
   </div>
 </div>
-
 <div id="modal" class="modal hidden">
   <div class="box" id="modalBox"></div>
 </div>
 
 <script>
-/* ============================================================
-   🔑 رمز ساخت اتاق
-   ============================================================ */
 const CREATE_ROOM_PASSWORD = "138500";
-/* ============================================================ */
-
 const SUITS = ['♠', '♥', '♦', '♣'];
 const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
 const SUIT_ORDER = { '♠': 0, '♥': 1, '♦': 2, '♣': 3 };
@@ -477,19 +271,21 @@ let state = null;
 let currentView = null;
 let chatOpen = false;
 
-/* WebRTC offline mode */
-let rtcConn = null;
-let dataChannel = null;
-let qrScanInterval = null;
+/* Offline (WebRTC) */
+let offlineConns = {};       // host: {slot: dataChannel}
+let pendingConn = null;
+let pendingChannel = null;
+let guestChannel = null;
+let videoStream = null;
+let animationFrame = null;
+let scanCallback = null;
 
-/* ============ Service Worker ============ */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
 }
 
-/* ============ شناسه ============ */
 function getOrCreateId() {
   let id = localStorage.getItem('hokm_id');
   if (!id) {
@@ -502,12 +298,9 @@ const MY_ID = getOrCreateId();
 let myName = localStorage.getItem('hokm_name') || '';
 document.getElementById('nameInput').value = myName;
 
-/* ============ صدا ============ */
 let audioCtx = null;
 function initAudio() {
-  if (!audioCtx) {
-    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-  }
+  if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} }
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }
 function beep(freq, dur=0.1, type='sine', vol=0.08) {
@@ -528,7 +321,6 @@ const sndMatch = () => [523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>bee
 const sndErr   = () => beep(200, 0.15, 'sawtooth', 0.06);
 const sndChat  = () => beep(1200, 0.05, 'sine', 0.04);
 
-/* ============ ابزار ============ */
 function makeDeck() {
   const d = [];
   for (const s of SUITS) for (let i=0;i<RANKS.length;i++)
@@ -543,31 +335,23 @@ function shuffle(a) {
   return a;
 }
 function sortHand(h) {
-  return h.sort((a,b) => a.suit !== b.suit
-    ? SUIT_ORDER[a.suit] - SUIT_ORDER[b.suit]
-    : a.value - b.value);
+  return h.sort((a,b) => a.suit !== b.suit ? SUIT_ORDER[a.suit] - SUIT_ORDER[b.suit] : a.value - b.value);
 }
 const cardsPerPlayer = n => ({2:13, 3:17, 4:13}[n]);
 
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
 function cardHTML(card, opts={}) {
   const red = (card.suit === '♥' || card.suit === '♦') ? ' red' : '';
   const cls = (opts.className || '') + red;
-  return `
-    <div class="card${cls}">
-      <span class="corner tl"><span class="rank">${card.rank}</span><span class="suit-sm">${card.suit}</span></span>
-      <span class="center-suit">${card.suit}</span>
-      <span class="corner br"><span class="rank">${card.rank}</span><span class="suit-sm">${card.suit}</span></span>
-    </div>
-  `;
+  return `<div class="card${cls}">
+    <span class="corner tl"><span class="rank">${card.rank}</span><span class="suit-sm">${card.suit}</span></span>
+    <span class="center-suit">${card.suit}</span>
+    <span class="corner br"><span class="rank">${card.rank}</span><span class="suit-sm">${card.suit}</span></span>
+  </div>`;
 }
 
-/* ============ مودال ============ */
 function showModal(html) {
   document.getElementById('modalBox').innerHTML = html;
   document.getElementById('modal').classList.remove('hidden');
@@ -576,35 +360,31 @@ function hideModal() {
   document.getElementById('modal').classList.add('hidden');
 }
 
-/* ============ ارسال داده ============ */
+/* ارسال داده */
 function sendToSlot(slot, data) {
   if (isOfflineMode) {
-    // فقط یک اتصال داریم (۲ نفره)
-    if (dataChannel && dataChannel.readyState === 'open') {
-      dataChannel.send(JSON.stringify(data));
+    const ch = offlineConns[slot];
+    if (ch && ch.readyState === 'open') {
+      try { ch.send(JSON.stringify(data)); } catch(e){}
     }
   } else {
     const c = hostConnections[slot];
     if (c && c.open) c.send(data);
   }
 }
-
 function sendToHost(data) {
   if (isOfflineMode) {
-    if (dataChannel && dataChannel.readyState === 'open') {
-      dataChannel.send(JSON.stringify(data));
+    if (guestChannel && guestChannel.readyState === 'open') {
+      try { guestChannel.send(JSON.stringify(data)); } catch(e){}
     }
   } else {
     if (myConn && myConn.open) myConn.send(data);
   }
 }
 
-/* ============================================================
-   ساخت اتاق آنلاین (با رمز)
-   ============================================================ */
+/* ============ ONLINE CREATE ============ */
 document.getElementById('createBtn').onclick = () => {
-  initAudio();
-  saveName();
+  initAudio(); saveName();
   showModal(`
     <h2>🔒 رمز ساخت اتاق</h2>
     <p class="hint">برای ساخت اتاق، رمز را وارد کن</p>
@@ -617,13 +397,8 @@ document.getElementById('createBtn').onclick = () => {
   const err = document.getElementById('createPassErr');
   setTimeout(() => inp.focus(), 100);
   const tryCreate = () => {
-    if (inp.value.trim() === CREATE_ROOM_PASSWORD) {
-      hideModal();
-      doCreateRoom();
-    } else {
-      err.textContent = '❌ رمز اشتباه است';
-      inp.value = ''; inp.focus(); sndErr();
-    }
+    if (inp.value.trim() === CREATE_ROOM_PASSWORD) { hideModal(); doCreateRoom(); }
+    else { err.textContent = '❌ رمز اشتباه است'; inp.value = ''; inp.focus(); sndErr(); }
   };
   document.getElementById('createPassOk').onclick = tryCreate;
   document.getElementById('createPassCancel').onclick = hideModal;
@@ -634,10 +409,8 @@ function doCreateRoom() {
   isOfflineMode = false;
   playerCount = +document.getElementById('playerCountSelect').value;
   targetScore = +document.getElementById('targetScoreSelect').value;
-
   const code = Math.floor(1000 + Math.random()*9000).toString();
   peer = new Peer('hokm-'+code, { debug: 0 });
-
   peer.on('open', () => {
     isHost = true; myIndex = 0;
     document.getElementById('status').innerHTML =
@@ -647,9 +420,33 @@ function doCreateRoom() {
     initState();
     updateLobby();
   });
-
   peer.on('connection', (conn) => {
-    conn.on('data', (data) => handleDataFromClient(conn._slot, data));
+    conn.on('data', (data) => {
+      if (data.type === 'hello') {
+        let slot = state.players.findIndex(p => p.playerId === data.playerId);
+        if (slot === -1) {
+          slot = state.players.findIndex(p => !p.playerId);
+          if (slot === -1) {
+            conn.send({ type: 'full', msg: 'ظرفیت اتاق پر است' });
+            setTimeout(() => conn.close(), 100);
+            return;
+          }
+          state.players[slot].playerId = data.playerId;
+        }
+        state.players[slot].name = data.name || 'بازیکن';
+        state.players[slot].connected = true;
+        hostConnections[slot] = conn;
+        conn._slot = slot;
+        updateLobby();
+        broadcast();
+        if (state.phase !== 'lobby') {
+          conn.send({ type: 'state', view: makeView(slot) });
+        }
+      } else {
+        const slot = conn._slot;
+        if (slot !== undefined) handleDataFromClient(slot, data);
+      }
+    });
     conn.on('close', () => {
       for (const slot in hostConnections) {
         if (hostConnections[slot] === conn) {
@@ -657,11 +454,9 @@ function doCreateRoom() {
           delete hostConnections[slot];
         }
       }
-      updateLobby();
-      broadcast();
+      updateLobby(); broadcast();
     });
   });
-
   peer.on('error', err => {
     document.getElementById('status').textContent = 'خطا: ' + err.message;
   });
@@ -669,103 +464,110 @@ function doCreateRoom() {
 
 function saveName() {
   const v = document.getElementById('nameInput').value.trim() || 'بازیکن';
-  myName = v;
-  localStorage.setItem('hokm_name', v);
+  myName = v; localStorage.setItem('hokm_name', v);
 }
 
-/* ============================================================
-   ورود آنلاین
-   ============================================================ */
+/* ============ ONLINE JOIN ============ */
 document.getElementById('joinBtn').onclick = () => {
-  initAudio();
-  saveName();
+  initAudio(); saveName();
   isOfflineMode = false;
-
   const code = document.getElementById('roomInput').value.trim();
   const statusEl = document.getElementById('status');
   const btn = document.getElementById('joinBtn');
-
   if (!code) { alert('کد اتاق رو وارد کن'); return; }
-  if (code.length !== 4 || !/^\d+$/.test(code)) {
-    alert('کد اتاق باید ۴ رقم باشه'); return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = '⏳ در حال اتصال...';
-  statusEl.textContent = '⏳ در حال اتصال به اتاق ' + code + '...';
-
+  if (code.length !== 4 || !/^\d+$/.test(code)) { alert('کد باید ۴ رقم باشه'); return; }
+  btn.disabled = true; btn.textContent = '⏳ اتصال...';
+  statusEl.textContent = '⏳ اتصال به اتاق ' + code + '...';
   let connected = false;
   const timeout = setTimeout(() => {
     if (connected) return;
     if (peer) { try { peer.destroy(); } catch(e){} }
-    statusEl.textContent =
-      '❌ اتصال برقرار نشد (وقفه ۱۰ ثانیه‌ای)\n' +
-      'دلایل احتمالی:\n' +
-      '• کد اتاق اشتباه است\n' +
-      '• میزبان صفحه را بسته یا رفرش کرده\n' +
-      '• اینترنت یکی از طرفین ضعیف است\n\n' +
-      '💡 اگه هیچ‌کدوم اینترنت ندارید، از حالت «آفلاین با QR» استفاده کنید.';
-    btn.disabled = false;
-    btn.textContent = '🚪 ورود';
-  }, 10000);
-
-  try { peer = new Peer({ debug: 0 }); }
-  catch(e) {
-    clearTimeout(timeout);
-    statusEl.textContent = '❌ خطا: ' + e.message;
+    statusEl.textContent = '❌ اتصال برقرار نشد\n• کد را چک کن\n• میزبان صفحه را نبندد';
     btn.disabled = false; btn.textContent = '🚪 ورود';
-    return;
-  }
-
+  }, 10000);
+  try { peer = new Peer({ debug: 0 }); }
+  catch(e) { clearTimeout(timeout); statusEl.textContent = '❌ ' + e.message; btn.disabled = false; btn.textContent = '🚪 ورود'; return; }
   peer.on('open', () => {
     statusEl.textContent = '⏳ اتصال به میزبان...';
     myConn = peer.connect('hokm-'+code, { reliable: true });
-
     myConn.on('open', () => {
-      connected = true;
-      clearTimeout(timeout);
+      connected = true; clearTimeout(timeout);
       isHost = false;
       myConn.send({ type: 'hello', playerId: MY_ID, name: myName });
       document.getElementById('menu').style.display = 'none';
       document.getElementById('game').style.display = 'block';
       document.getElementById('message').textContent = 'وصل شدی! منتظر شروع...';
     });
-
     myConn.on('data', (data) => {
       if (data.type === 'state') {
-        currentView = data.view;
-        myIndex = data.view.myIndex;
+        currentView = data.view; myIndex = data.view.myIndex;
         render(data.view);
       } else if (data.type === 'full') {
         showModal(`<h2>⛔ اتاق پر است</h2><p>${data.msg||''}</p>
           <button onclick="location.reload()">بستن</button>`);
       }
     });
-
-    myConn.on('close', () => {
-      document.getElementById('message').textContent = 'اتصال قطع شد...';
-    });
+    myConn.on('close', () => { document.getElementById('message').textContent = 'اتصال قطع شد...'; });
   });
-
   peer.on('error', err => {
     clearTimeout(timeout);
-    let msg = err.message || 'خطای ناشناخته';
-    if (err.type === 'peer-unavailable') {
-      msg = '❌ اتاق با این کد پیدا نشد.\n• کد رو دقیق چک کن';
-    } else if (err.type === 'network') {
-      msg = '❌ مشکل اینترنت.';
-    }
+    let msg = err.message || 'خطا';
+    if (err.type === 'peer-unavailable') msg = '❌ اتاق پیدا نشد.\n• کد را چک کن';
+    else if (err.type === 'network') msg = '❌ مشکل اینترنت.';
     statusEl.textContent = msg;
     btn.disabled = false; btn.textContent = '🚪 ورود';
   });
 };
 
+/* ============ دریافت از کلاینت ============ */
+function handleDataFromClient(slot, data) {
+  if (!isHost || !state || slot === undefined) return;
+  if (data.type === 'chooseTrump') chooseTrump(slot, data.suit);
+  if (data.type === 'playCard') playCard(slot, data.cardId);
+  if (data.type === 'chat') addChat(slot, data.text);
+  if (data.type === 'nextRound') {
+    if (slot === 0 || slot === state.hakem) startNewRound(false);
+  }
+}
+
+function initState() {
+  state = {
+    phase: 'lobby', playerCount, targetScore,
+    players: Array.from({length: playerCount}, (_,i) => ({
+      playerId: i === 0 ? MY_ID : null,
+      name: i === 0 ? myName : null,
+      connected: i === 0
+    })),
+    chat: []
+  };
+}
+
+/* ============ لابی ============ */
+function updateLobby() {
+  if (!state) return;
+  const connected = state.players.filter(p => p.connected).length;
+  document.getElementById('connectedCount').textContent = connected;
+  document.getElementById('totalCount').textContent = playerCount;
+  const list = document.getElementById('lobbyList');
+  list.innerHTML = '';
+  state.players.forEach((p, i) => {
+    const li = document.createElement('li');
+    li.textContent = (p.name || `جای خالی ${i+1}`) + (i === 0 ? ' 👑' : '');
+    if (!p.connected) li.classList.add('disconnected');
+    if (i === myIndex) li.classList.add('self');
+    list.appendChild(li);
+  });
+  const startBtn = document.getElementById('startBtn');
+  startBtn.disabled = connected < playerCount;
+  document.getElementById('lobbyHint').textContent =
+    connected >= playerCount ? '✅ همه حاضرند! شروع کن' : `منتظر ${playerCount - connected} بازیکن...`;
+}
+
 /* ============================================================
-   حالت آفلاین — ساخت اتاق (میزبان)
+   OFFLINE HOST
    ============================================================ */
 document.getElementById('createOfflineBtn').onclick = () => {
-  initAudio();
-  saveName();
+  initAudio(); saveName();
   showModal(`
     <h2>🔒 رمز ساخت اتاق</h2>
     <input id="createPassInput" type="password" placeholder="رمز" inputmode="numeric">
@@ -777,13 +579,8 @@ document.getElementById('createOfflineBtn').onclick = () => {
   const err = document.getElementById('createPassErr');
   setTimeout(() => inp.focus(), 100);
   const tryCreate = () => {
-    if (inp.value.trim() === CREATE_ROOM_PASSWORD) {
-      hideModal();
-      startOfflineHost();
-    } else {
-      err.textContent = '❌ رمز اشتباه است';
-      inp.value = ''; inp.focus(); sndErr();
-    }
+    if (inp.value.trim() === CREATE_ROOM_PASSWORD) { hideModal(); startOfflineHost(); }
+    else { err.textContent = '❌ رمز اشتباه است'; inp.value = ''; inp.focus(); sndErr(); }
   };
   document.getElementById('createPassOk').onclick = tryCreate;
   document.getElementById('createPassCancel').onclick = hideModal;
@@ -795,40 +592,97 @@ async function startOfflineHost() {
   isHost = true;
   myIndex = 0;
   playerCount = +document.getElementById('playerCountSelect').value;
+  if (playerCount < 2 || playerCount > 4) playerCount = 2;
   targetScore = +document.getElementById('targetScoreSelect').value;
+  offlineConns = {};
+  initState();
+  document.getElementById('lobby').classList.remove('hidden');
+  document.getElementById('totalCount').textContent = playerCount;
+  updateLobby();
+  document.getElementById('lobbyHint').textContent = '⏳ در حال آماده‌سازی...';
+  await prepareNextGuest();
+}
 
-  if (playerCount !== 2) {
-    alert('حالت آفلاین فقط برای ۲ نفر پشتیبانی می‌شه.\nتعداد بازیکن روی ۲ تنظیم شد.');
-    playerCount = 2;
-    document.getElementById('playerCountSelect').value = '2';
+async function prepareNextGuest() {
+  stopQRCamera();
+  let nextSlot = 1;
+  while (nextSlot < playerCount && offlineConns[nextSlot]) nextSlot++;
+  if (nextSlot >= playerCount) {
+    hideModal();
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('lobbyHint').textContent = '✅ همه حاضرند!';
+    return;
   }
 
-  // ساخت اتصال WebRTC
-  const config = {
-    iceServers: []  // بدون STUN/TURN — فقط شبکه محلی
+  const conn = new RTCPeerConnection({ iceServers: [] });
+  const channel = conn.createDataChannel('game', { ordered: true });
+  pendingConn = conn;
+  pendingChannel = channel;
+
+  channel.onopen = () => {
+    offlineConns[nextSlot] = channel;
+    state.players[nextSlot].playerId = 'guest_' + nextSlot;
+    state.players[nextSlot].connected = true;
+    updateLobby();
+    broadcast();
+    channel.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.type === 'hello') {
+          state.players[nextSlot].name = data.name || ('بازیکن ' + (nextSlot + 1));
+          updateLobby(); broadcast();
+          if (state.phase !== 'lobby') {
+            channel.send(JSON.stringify({ type: 'state', view: makeView(nextSlot) }));
+          }
+        } else {
+          handleDataFromClient(nextSlot, data);
+        }
+      } catch(err) {}
+    };
+    channel.onclose = () => {
+      state.players[nextSlot].connected = false;
+      delete offlineConns[nextSlot];
+      updateLobby(); broadcast();
+    };
+    setTimeout(() => {
+      let ns = 1;
+      while (ns < playerCount && offlineConns[ns]) ns++;
+      if (ns < playerCount) {
+        showModal(`
+          <h2>✅ بازیکن ${nextSlot + 1} وصل شد</h2>
+          <p>${nextSlot + 1} از ${playerCount} نفر</p>
+          <button class="primary" onclick="prepareNextGuest()" style="width:100%;">📷 افزودن بازیکن بعدی</button>
+          <button class="gray" onclick="finishOfflineSetup()" style="width:100%;">▶️ شروع با همین تعداد</button>
+        `);
+      } else {
+        hideModal();
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('lobbyHint').textContent = '✅ همه حاضرند!';
+      }
+    }, 400);
   };
-  rtcConn = new RTCPeerConnection(config);
 
-  dataChannel = rtcConn.createDataChannel('game', { ordered: true });
-  setupDataChannel(dataChannel);
+  const offer = await conn.createOffer();
+  await conn.setLocalDescription(offer);
+  await waitForIce(conn, 3000);
+  const compressed = compressSDP(conn.localDescription.sdp);
+  const qrData = 'H|' + nextSlot + '|' + compressed;
+  showQRForHost(qrData, nextSlot);
+}
 
-  rtcConn.oniceconnectionstatechange = () => {
-    if (rtcConn.iceConnectionState === 'disconnected' ||
-        rtcConn.iceConnectionState === 'failed') {
-      document.getElementById('message').textContent = 'اتصال قطع شد';
-    }
-  };
-
-  const offer = await rtcConn.createOffer();
-  await rtcConn.setLocalDescription(offer);
-
-  // صبر برای جمع‌آوری ICE candidates
-  await waitForIce(rtcConn, 3000);
-
-  const sdp = rtcConn.localDescription.sdp;
-  const compressed = compressSDP(sdp);
-
-  showQRForHost(compressed);
+function finishOfflineSetup() {
+  let actual = 1;
+  for (let i = 1; i < playerCount; i++) if (offlineConns[i]) actual++;
+  if (actual < 2) { alert('حداقل ۲ بازیکن لازم است'); return; }
+  playerCount = actual;
+  state.playerCount = actual;
+  state.players = state.players.slice(0, actual);
+  state.gameScore = actual === 4 ? [0, 0] : Array(actual).fill(0);
+  hideModal();
+  document.getElementById('totalCount').textContent = actual;
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('lobbyHint').textContent = '✅ آماده‌ی شروع!';
+  updateLobby();
 }
 
 function waitForIce(pc, timeout) {
@@ -845,98 +699,169 @@ function waitForIce(pc, timeout) {
   });
 }
 
-function showQRForHost(compressed) {
+function showQRForHost(qrData, slot) {
   showModal(`
     <div class="qr-box">
-      <span class="step-badge">قدم ۱ از ۲</span>
-      <h2>📤 این کد رو نشون بده</h2>
-      <p class="hint">دوستت با گوشی خودش این QR رو اسکن کنه</p>
+      <span class="step-badge">قدم ۱ — بازیکن ${slot + 1}</span>
+      <h2>📤 این QR رو نشون بده</h2>
+      <p class="hint">دوستت این رو با گوشی خودش اسکن کنه</p>
       <div class="qr-wrap" id="qrHost"></div>
-      <p class="hint">بعد از اسکن، دکمه‌ی زیر رو بزن</p>
-      <button class="primary" id="scanAnswerBtn" style="width:100%;">📷 اسکن پاسخ دوستت</button>
-      <button class="gray" id="cancelOfflineBtn" style="width:100%;">لغو</button>
+      <hr style="margin:14px 0;border-color:#333;">
+      <span class="step-badge">قدم ۲ — اسکن پاسخ</span>
+      <p class="hint">حالا پاسخ دوستت رو با دوربین پایین اسکن کن</p>
+      <video id="qrReader" playsinline></video>
+      <p class="hint" id="scanHint">⏳ در حال اسکن...</p>
+      <button class="gray" id="cancelOfflineBtn" style="width:100%;margin-top:8px;">لغو</button>
     </div>
   `);
-  generateQR('qrHost', compressed);
-  document.getElementById('scanAnswerBtn').onclick = () => scanQRCode('host');
+  generateQR('qrHost', qrData);
+  setTimeout(() => startHostAnswerScan(), 500);
   document.getElementById('cancelOfflineBtn').onclick = () => {
-    hideModal();
-    if (rtcConn) { try { rtcConn.close(); } catch(e){} }
+    stopQRCamera(); hideModal();
   };
 }
 
+function startHostAnswerScan() {
+  scanCallback = async (data) => {
+    const parts = data.split('|');
+    if (parts[0] !== 'G') {
+      if (navigator.vibrate) navigator.vibrate(30);
+      // دوباره تلاش کن
+      setTimeout(() => startHostAnswerScan(), 200);
+      return;
+    }
+    const sdp = decompressSDP(parts[1]);
+    try {
+      await pendingConn.setRemoteDescription({ type: 'answer', sdp });
+      const hint = document.getElementById('scanHint');
+      if (hint) hint.textContent = '✅ پاسخ دریافت شد! در حال اتصال...';
+    } catch(err) {
+      alert('خطا: ' + err.message);
+    }
+  };
+  openCameraAndScan();
+}
+
 /* ============================================================
-   حالت آفلاین — ورود (مهمان)
+   OFFLINE GUEST
    ============================================================ */
 document.getElementById('joinOfflineBtn').onclick = () => {
-  initAudio();
-  saveName();
+  initAudio(); saveName();
   isOfflineMode = true;
   isHost = false;
-  myIndex = 1;
-  playerCount = 2;
   targetScore = +document.getElementById('targetScoreSelect').value;
-
   showModal(`
     <div class="qr-box">
-      <span class="step-badge">قدم ۱ از ۲</span>
-      <h2>📷 کد میزبان رو اسکن کن</h2>
+      <h2>📷 QR میزبان رو اسکن کن</h2>
       <p class="hint">دوربین رو به QR میزبان بگیر</p>
       <video id="qrReader" playsinline></video>
-      <p class="hint" id="qrReaderHint">در حال اسکن...</p>
-      <button class="gray" id="cancelOfflineBtn" style="width:100%;">لغو</button>
+      <p class="hint" id="scanHint">⏳ در حال اسکن...</p>
+      <button class="gray" id="cancelOfflineBtn" style="width:100%;margin-top:10px;">لغو</button>
     </div>
   `);
   document.getElementById('cancelOfflineBtn').onclick = () => {
-    stopQRCamera();
-    hideModal();
+    stopQRCamera(); hideModal();
   };
-  scanQRCode('guest');
+  scanCallback = async (data) => {
+    const parts = data.split('|');
+    if (parts[0] !== 'H') {
+      if (navigator.vibrate) navigator.vibrate(30);
+      setTimeout(() => {
+        scanCallback = arguments.callee;
+        openCameraAndScan();
+      }, 200);
+      return;
+    }
+    const hostSlot = parseInt(parts[1]);
+    const sdp = decompressSDP(parts[2]);
+    try {
+      await guestHandleOffer(sdp, hostSlot);
+    } catch(err) {
+      alert('خطا: ' + err.message);
+    }
+  };
+  openCameraAndScan();
 };
 
-/* ============================================================
-   QR — اسکن
-   ============================================================ */
-let videoStream = null;
-let animationFrame = null;
+async function guestHandleOffer(sdp, hostSlot) {
+  const conn = new RTCPeerConnection({ iceServers: [] });
+  conn.ondatachannel = (e) => {
+    guestChannel = e.channel;
+    guestChannel.onopen = () => {
+      hideModal();
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game').style.display = 'block';
+      document.getElementById('message').textContent = 'وصل شدی! منتظر شروع...';
+      sendToHost({ type: 'hello', playerId: MY_ID, name: myName });
+    };
+    guestChannel.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+        if (msg.type === 'state') {
+          currentView = msg.view;
+          myIndex = msg.view.myIndex;
+          render(msg.view);
+        }
+      } catch(err) {}
+    };
+    guestChannel.onclose = () => {
+      document.getElementById('message').textContent = 'اتصال قطع شد';
+    };
+  };
+  await conn.setRemoteDescription({ type: 'offer', sdp });
+  const answer = await conn.createAnswer();
+  await conn.setLocalDescription(answer);
+  await waitForIce(conn, 3000);
+  const compressed = compressSDP(conn.localDescription.sdp);
+  const qrData = 'G|' + compressed;
+  showModal(`
+    <div class="qr-box">
+      <h2>📤 پاسخ رو نشون بده</h2>
+      <p class="hint">میزبان باید این QR رو اسکن کنه</p>
+      <div class="qr-wrap" id="qrGuest"></div>
+      <p class="hint">بعد از اسکن، اتصال خودکار برقرار می‌شه</p>
+    </div>
+  `);
+  generateQR('qrGuest', qrData);
+  myIndex = hostSlot;
+}
 
-async function scanQRCode(role) {
+/* ============================================================
+   QR CAMERA + SCAN
+   ============================================================ */
+async function openCameraAndScan() {
+  stopQRCamera();
   const video = document.getElementById('qrReader');
   if (!video) return;
-
   try {
     videoStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' },
-      audio: false
+      video: { facingMode: 'environment' }, audio: false
     });
     video.srcObject = videoStream;
-    video.setAttribute('playsinline', 'true');
     await video.play();
   } catch (err) {
-    document.getElementById('qrReaderHint').textContent =
-      '❌ دسترسی به دوربین ممکن نشد: ' + err.message;
+    const hint = document.getElementById('scanHint');
+    if (hint) hint.textContent = '❌ دوربین باز نشد: ' + err.message;
     return;
   }
-
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-
   const scan = () => {
+    if (!videoStream) return;
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      });
-      if (code && code.data) {
+      let code = null;
+      try {
+        code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' });
+      } catch(e) {}
+      if (code && code.data && scanCallback) {
+        const cb = scanCallback;
+        scanCallback = null;
         stopQRCamera();
-        if (role === 'host') {
-          handleGuestAnswer(code.data);
-        } else {
-          handleHostOffer(code.data);
-        }
+        cb(code.data);
         return;
       }
     }
@@ -946,17 +871,11 @@ async function scanQRCode(role) {
 }
 
 function stopQRCamera() {
-  if (animationFrame) cancelAnimationFrame(animationFrame);
-  animationFrame = null;
-  if (videoStream) {
-    videoStream.getTracks().forEach(t => t.stop());
-    videoStream = null;
-  }
+  if (animationFrame) { cancelAnimationFrame(animationFrame); animationFrame = null; }
+  if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
+  scanCallback = null;
 }
 
-/* ============================================================
-   QR — تولید
-   ============================================================ */
 function generateQR(elementId, data) {
   const el = document.getElementById(elementId);
   if (!el) return;
@@ -966,251 +885,34 @@ function generateQR(elementId, data) {
     qr.make();
     el.innerHTML = qr.createSvgTag({ cellSize: 5, margin: 2 });
     const svg = el.querySelector('svg');
-    if (svg) {
-      svg.style.width = '100%';
-      svg.style.maxWidth = '300px';
-      svg.style.height = 'auto';
-    }
+    if (svg) { svg.style.width = '100%'; svg.style.maxWidth = '280px'; svg.style.height = 'auto'; }
   } catch (err) {
-    el.innerHTML = '<p style="color:#c00;">خطا در ساخت QR: ' + err.message + '</p>';
+    el.innerHTML = '<p style="color:#c00;">خطا: ' + err.message + '</p>';
   }
 }
 
-/* ============================================================
-   فشرده‌سازی SDP
-   ============================================================ */
 function compressSDP(sdp) {
-  // فقط بخش‌های لازم رو نگه دار
   const lines = sdp.split('\r\n');
   const cleaned = lines.filter(l =>
-    !l.startsWith('a=extmap') &&
-    !l.startsWith('a=rtcp-fb') &&
-    !l.startsWith('a=fmtp') &&
-    !l.startsWith('a=rtpmap') &&
-    !l.startsWith('a=ssrc') &&
-    !l.startsWith('a=msid') &&
-    !l.startsWith('a=ice-options') &&
-    !l.startsWith('a=rtcp-mux') &&
-    !l.startsWith('a=setup') &&
-    !l.startsWith('a=sctp-port') &&
+    !l.startsWith('a=extmap') && !l.startsWith('a=rtcp-fb') &&
+    !l.startsWith('a=fmtp') && !l.startsWith('a=rtpmap') &&
+    !l.startsWith('a=ssrc') && !l.startsWith('a=msid') &&
+    !l.startsWith('a=ice-options') && !l.startsWith('a=rtcp-mux') &&
     !l.startsWith('a=max-message-size') &&
     l.trim() !== ''
   ).join('\r\n') + '\r\n';
-
-  // فشرده با gzip + base64
   const compressed = pako.gzip(cleaned);
   const binary = String.fromCharCode.apply(null, compressed);
   return 'Z' + btoa(binary);
 }
-
 function decompressSDP(str) {
   const binary = atob(str.substring(1));
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  const decompressed = pako.ungzip(bytes, { to: 'string' });
-  return decompressed;
+  return pako.ungzip(bytes, { to: 'string' });
 }
 
-/* ============================================================
-   جریان آفلاین — مهمان
-   ============================================================ */
-async function handleHostOffer(compressedOffer) {
-  try {
-    const sdp = decompressSDP(compressedOffer);
-    const config = { iceServers: [] };
-    rtcConn = new RTCPeerConnection(config);
-
-    rtcConn.ondatachannel = (event) => {
-      dataChannel = event.channel;
-      setupDataChannel(dataChannel);
-    };
-
-    rtcConn.oniceconnectionstatechange = () => {
-      if (rtcConn.iceConnectionState === 'failed') {
-        document.getElementById('message').textContent = 'اتصال برقرار نشد';
-      }
-    };
-
-    await rtcConn.setRemoteDescription({ type: 'offer', sdp });
-
-    const answer = await rtcConn.createAnswer();
-    await rtcConn.setLocalDescription(answer);
-    await waitForIce(rtcConn, 3000);
-
-    const localSdp = rtcConn.localDescription.sdp;
-    const compressed = compressSDP(localSdp);
-
-    // نشون دادن QR پاسخ به میزبان
-    showModal(`
-      <div class="qr-box">
-        <span class="step-badge">قدم ۲ از ۲</span>
-        <h2>📤 این پاسخ رو نشون بده</h2>
-        <p class="hint">میزبان باید این QR رو با گوشی خودش اسکن کنه</p>
-        <div class="qr-wrap" id="qrGuest"></div>
-        <p class="hint">بعد از اسکن، اتصال خودکار برقرار می‌شه</p>
-      </div>
-    `);
-    generateQR('qrGuest', compressed);
-  } catch (err) {
-    showModal(`<h2>❌ خطا</h2><p>${err.message}</p>
-      <button onclick="location.reload()">بستن</button>`);
-  }
-}
-
-/* ============================================================
-   جریان آفلاین — میزبان دریافت پاسخ
-   ============================================================ */
-async function handleGuestAnswer(compressedAnswer) {
-  try {
-    const sdp = decompressSDP(compressedAnswer);
-    await rtcConn.setRemoteDescription({ type: 'answer', sdp });
-    // اتصال در حال برقراری...
-    showModal(`<h2>⏳ در حال اتصال...</h2>`);
-  } catch (err) {
-    showModal(`<h2>❌ خطا</h2><p>${err.message}</p>
-      <button onclick="location.reload()">بستن</button>`);
-  }
-}
-
-/* ============================================================
-   Data Channel — تنظیم
-   ============================================================ */
-function setupDataChannel(channel) {
-  channel.onopen = () => {
-    hideModal();
-    // راه‌اندازی بازی
-    if (isHost) {
-      initState();
-      updateLobby();
-      document.getElementById('status').innerHTML =
-        '✅ اتصال برقرار شد!';
-      document.getElementById('lobby').classList.remove('hidden');
-      document.getElementById('totalCount').textContent = 2;
-      document.getElementById('connectedCount').textContent = 2;
-      document.getElementById('startBtn').disabled = false;
-      document.getElementById('lobbyHint').textContent = '✅ آماده‌ی شروع!';
-    } else {
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById('game').style.display = 'block';
-      document.getElementById('message').textContent = 'وصل شدی! منتظر شروع...';
-      sendToHost({ type: 'hello', playerId: MY_ID, name: myName });
-    }
-  };
-
-  channel.onmessage = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-      if (isHost) {
-        // پیام از مهمان
-        if (data.type === 'hello') {
-          state.players[1].playerId = data.playerId;
-          state.players[1].name = data.name || 'بازیکن';
-          state.players[1].connected = true;
-          updateLobby();
-          broadcast();
-        } else if (data.type === 'chooseTrump') {
-          chooseTrump(1, data.suit);
-        } else if (data.type === 'playCard') {
-          playCard(1, data.cardId);
-        } else if (data.type === 'chat') {
-          addChat(1, data.text);
-        } else if (data.type === 'nextRound') {
-          startNewRound(false);
-        }
-      } else {
-        // پیام از میزبان
-        if (data.type === 'state') {
-          currentView = data.view;
-          myIndex = data.view.myIndex;
-          render(data.view);
-        }
-      }
-    } catch (e) {}
-  };
-
-  channel.onclose = () => {
-    document.getElementById('message').textContent = 'اتصال قطع شد';
-  };
-
-  channel.onerror = (err) => {
-    console.error('DC error:', err);
-  };
-}
-
-/* ============================================================
-   حالت عمومی — handleDataFromClient
-   ============================================================ */
-function handleDataFromClient(slot, data) {
-  if (!isHost || !state || slot === undefined) return;
-
-  if (data.type === 'hello') {
-    let s = state.players.findIndex(p => p.playerId === data.playerId);
-    if (s === -1) {
-      s = state.players.findIndex(p => !p.playerId);
-      if (s === -1) return;
-      state.players[s].playerId = data.playerId;
-      slot = s;
-    }
-    state.players[slot].name = data.name || 'بازیکن';
-    state.players[slot].connected = true;
-    hostConnections[slot] = peer.connections[Object.keys(peer.connections)[0]]?.[0] || null;
-    updateLobby();
-    broadcast();
-    return;
-  }
-
-  if (data.type === 'chooseTrump') chooseTrump(slot, data.suit);
-  if (data.type === 'playCard') playCard(slot, data.cardId);
-  if (data.type === 'chat') addChat(slot, data.text);
-  if (data.type === 'nextRound') {
-    if (slot === 0 || slot === state.hakem) startNewRound(false);
-  }
-}
-
-/* ============================================================
-   initState
-   ============================================================ */
-function initState() {
-  state = {
-    phase: 'lobby',
-    playerCount, targetScore,
-    players: Array.from({length: playerCount}, (_,i) => ({
-      playerId: i === 0 ? MY_ID : null,
-      name: i === 0 ? myName : null,
-      connected: i === 0
-    })),
-    chat: []
-  };
-}
-
-/* ============================================================
-   لابی
-   ============================================================ */
-function updateLobby() {
-  if (!state) return;
-  const connected = state.players.filter(p => p.connected).length;
-  document.getElementById('connectedCount').textContent = connected;
-  document.getElementById('totalCount').textContent = playerCount;
-
-  const list = document.getElementById('lobbyList');
-  list.innerHTML = '';
-  state.players.forEach((p, i) => {
-    const li = document.createElement('li');
-    li.textContent = (p.name || `جای خالی ${i+1}`) + (i === 0 ? ' 👑' : '');
-    if (!p.connected) li.classList.add('disconnected');
-    if (i === myIndex) li.classList.add('self');
-    list.appendChild(li);
-  });
-
-  const startBtn = document.getElementById('startBtn');
-  startBtn.disabled = connected < playerCount;
-  document.getElementById('lobbyHint').textContent =
-    connected >= playerCount ? '✅ همه حاضرند! شروع کن' : `منتظر ${playerCount - connected} بازیکن...`;
-}
-
-/* ============================================================
-   شروع دور
-   ============================================================ */
+/* ============ START ROUND ============ */
 document.getElementById('startBtn').onclick = () => startNewRound(true);
 
 function pickNextHakem() {
@@ -1236,19 +938,14 @@ function pickNextHakem() {
 
 function startNewRound(isFirst=false) {
   if (!isHost || !state) return;
-
   if (isFirst) {
-    state.gameScore = state.playerCount === 4
-      ? [0, 0]
-      : Array(state.playerCount).fill(0);
+    state.gameScore = state.playerCount === 4 ? [0, 0] : Array(state.playerCount).fill(0);
     state.hakem = Math.floor(Math.random() * playerCount);
   } else {
     state.hakem = pickNextHakem();
   }
-
   const deck = shuffle(makeDeck());
   const cpp = cardsPerPlayer(playerCount);
-
   const hands = {};
   const pending = {};
   for (let i = 0; i < playerCount; i++) {
@@ -1256,7 +953,6 @@ function startNewRound(isFirst=false) {
     hands[i] = sortHand(slice.slice(0, INITIAL_DEAL));
     pending[i] = slice.slice(INITIAL_DEAL);
   }
-
   state.phase = 'choosing';
   state.hands = hands;
   state.pendingHands = pending;
@@ -1272,18 +968,13 @@ function startNewRound(isFirst=false) {
   state.message = state.hakem === myIndex
     ? '👑 تو حاکمی! حکم را انتخاب کن'
     : `👑 ${state.players[state.hakem].name} حاکم است...`;
-
   broadcast();
 }
 
-/* ============================================================
-   نما
-   ============================================================ */
 function makeView(p) {
   const oppCounts = {};
   for (let i = 0; i < state.playerCount; i++)
     if (i !== p) oppCounts[i] = state.hands[i].length;
-
   return {
     phase: state.phase, playerCount: state.playerCount,
     targetScore: state.targetScore, players: state.players,
@@ -1305,25 +996,19 @@ function broadcast() {
   }
 }
 
-/* ============================================================
-   منطق بازی
-   ============================================================ */
 function chooseTrump(player, suit) {
   if (!state || state.phase !== 'choosing' || state.hakem !== player) return;
   state.trump = suit;
-
   if (state.pendingHands) {
     for (let i = 0; i < state.playerCount; i++) {
       state.hands[i] = sortHand([...state.hands[i], ...state.pendingHands[i]]);
     }
     state.pendingHands = null;
   }
-
   state.phase = 'playing';
   state.turn = state.hakem;
   state.message = `حکم: ${suit} — ${state.players[state.hakem].name} شروع می‌کند`;
-  sndTurn();
-  broadcast();
+  sndTurn(); broadcast();
 }
 
 function playCard(player, cardId) {
@@ -1332,23 +1017,18 @@ function playCard(player, cardId) {
   const idx = hand.findIndex(c => c.id === cardId);
   if (idx === -1) return;
   const card = hand[idx];
-
   if (state.trick.length > 0) {
     const leadSuit = state.trick[0].card.suit;
     const hasLead = hand.some(c => c.suit === leadSuit);
     if (hasLead && card.suit !== leadSuit) {
       state.message = '❌ باید از خال زمین بازی کنی!';
-      sndErr();
-      broadcast();
-      return;
+      sndErr(); broadcast(); return;
     }
   }
-
   hand.splice(idx, 1);
   state.trick.push({ player, card });
   sndCard();
   state.lastTrickWinner = null;
-
   if (state.trick.length === state.playerCount) {
     setTimeout(() => resolveTrick(), 500);
   } else {
@@ -1362,7 +1042,6 @@ function resolveTrick() {
   const trump = state.trump;
   let winner = state.trick[0].player;
   let bestCard = state.trick[0].card;
-
   for (let i = 1; i < state.trick.length; i++) {
     const { player, card } = state.trick[i];
     if (card.suit === bestCard.suit) {
@@ -1371,17 +1050,14 @@ function resolveTrick() {
       winner = player; bestCard = card;
     }
   }
-
   state.tricksWon[winner]++;
   state.turn = winner;
   state.lastTrickWinner = winner;
   state.message = `🎯 ${state.players[winner].name} این دست را برد`;
   sndTrick();
-
   if (state.trickNumber >= state.totalTricks) {
     endRound(); broadcast(); return;
   }
-
   state.trickNumber++;
   state.trick = [];
   broadcast();
@@ -1401,14 +1077,10 @@ function endRound() {
       if (state.tricksWon[i] > max) { max = state.tricksWon[i]; winners = [i]; }
       else if (state.tricksWon[i] === max) winners.push(i);
     }
-    if (winners.length === 1) {
-      roundWinner = winners[0];
-      state.gameScore[winners[0]]++;
-    } else roundWinner = null;
+    if (winners.length === 1) { roundWinner = winners[0]; state.gameScore[winners[0]]++; }
+    else roundWinner = null;
   }
-
   state.roundWinner = roundWinner;
-
   const finished = state.gameScore.some(s => s >= state.targetScore);
   if (finished) {
     state.phase = 'matchover';
@@ -1418,14 +1090,10 @@ function endRound() {
       state.matchWinner = state.gameScore.indexOf(Math.max(...state.gameScore));
     sndMatch();
   } else {
-    state.phase = 'roundover';
-    sndRound();
+    state.phase = 'roundover'; sndRound();
   }
 }
 
-/* ============================================================
-   چت
-   ============================================================ */
 function addChat(fromSlot, text) {
   if (!state || !text) return;
   state.chat.push({
@@ -1433,10 +1101,8 @@ function addChat(fromSlot, text) {
     text: text.slice(0, 200), time: Date.now(), slot: fromSlot
   });
   if (state.chat.length > 100) state.chat = state.chat.slice(-100);
-  sndChat();
-  broadcast();
+  sndChat(); broadcast();
 }
-
 function sendChat() {
   const inp = document.getElementById('chatText');
   const text = inp.value.trim();
@@ -1445,11 +1111,8 @@ function sendChat() {
   if (isHost) addChat(myIndex, text);
   else sendToHost({ type: 'chat', text });
 }
-
 document.getElementById('chatSend').onclick = sendChat;
-document.getElementById('chatText').addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendChat();
-});
+document.getElementById('chatText').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 document.getElementById('chatBtn').onclick = () => {
   chatOpen = true;
   document.getElementById('chatPanel').classList.add('open');
@@ -1459,7 +1122,6 @@ document.getElementById('chatClose').onclick = () => {
   chatOpen = false;
   document.getElementById('chatPanel').classList.remove('open');
 };
-
 function renderChat(view) {
   const box = document.getElementById('chatMessages');
   const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 50;
@@ -1472,9 +1134,6 @@ function renderChat(view) {
   if (nearBottom) box.scrollTop = box.scrollHeight;
 }
 
-/* ============================================================
-   اجازه کارت
-   ============================================================ */
 function canPlay(card, view) {
   if (view.phase !== 'playing' || view.turn !== view.myIndex) return false;
   if (view.trick.length > 0) {
@@ -1485,9 +1144,6 @@ function canPlay(card, view) {
   return true;
 }
 
-/* ============================================================
-   رسم
-   ============================================================ */
 let lastRenderedTurn = -1;
 let lastRenderedPhase = '';
 
@@ -1505,10 +1161,8 @@ function render(view) {
   currentView = view;
   document.getElementById('menu').style.display = 'none';
   document.getElementById('game').style.display = 'block';
-
   const my = view.myIndex;
   const pc = view.playerCount;
-
   let info = `حکم: <b>${view.trump || '—'}</b> | دست: <b>${Math.min(view.trickNumber, view.totalTricks)}</b>/${view.totalTricks}`;
   if (pc === 4) {
     const amA = my === 0 || my === 2;
@@ -1538,7 +1192,6 @@ function render(view) {
     `;
     oppEl.appendChild(div);
   }
-
   const tableEl = document.getElementById('table');
   tableEl.innerHTML = view.trick.map(p => `
     <div class="trick-card ${view.lastTrickWinner === p.player ? 'winner' : ''}">
@@ -1546,16 +1199,12 @@ function render(view) {
       ${cardHTML(p.card)}
     </div>
   `).join('');
-
   const myLabel = document.getElementById('myLabel');
-  myLabel.innerHTML =
-    `👤 من: ${escapeHtml(view.players[my].name || 'من')} ` +
+  myLabel.innerHTML = `👤 من: ${escapeHtml(view.players[my].name || 'من')} ` +
     `<span class="score">${scoreTextForPlayer(view, my)}</span>` +
     (view.hakem === my ? ' 👑' : '');
-
   document.getElementById('myArea').classList.toggle('turn',
     view.turn === my && view.phase === 'playing');
-
   const handEl = document.getElementById('myHand');
   handEl.innerHTML = '';
   view.myHand.forEach(card => {
@@ -1573,10 +1222,8 @@ function render(view) {
     }
     handEl.appendChild(cardEl);
   });
-
   const chooser = document.getElementById('trumpChooser');
   chooser.classList.toggle('hidden', !(view.phase === 'choosing' && view.hakem === my));
-
   let msg = view.message || '';
   if (view.phase === 'playing' && !msg) {
     msg = view.turn === my ? '👉 نوبت توست' : `نوبت ${escapeHtml(view.players[view.turn].name)}`;
@@ -1585,21 +1232,15 @@ function render(view) {
     msg = `⏳ ${escapeHtml(view.players[view.hakem].name)} در حال انتخاب حکم...`;
   }
   document.getElementById('message').textContent = msg;
-
   if (view.phase === 'playing' && view.turn === my && lastRenderedTurn !== my) sndTurn();
   lastRenderedTurn = view.turn;
-
   if (view.phase === 'roundover' && lastRenderedPhase !== 'roundover') showRoundOverModal(view);
   if (view.phase === 'matchover' && lastRenderedPhase !== 'matchover') showMatchOverModal(view);
   if (view.phase !== 'roundover' && view.phase !== 'matchover') hideModal();
   lastRenderedPhase = view.phase;
-
   if (chatOpen) renderChat(view);
 }
 
-/* ============================================================
-   مودال پایان
-   ============================================================ */
 function showRoundOverModal(view) {
   const my = view.myIndex;
   let winnerText;
@@ -1610,17 +1251,13 @@ function showRoundOverModal(view) {
   } else {
     winnerText = view.roundWinner === my ? '🎉 بردی!' : `😔 ${escapeHtml(view.players[view.roundWinner].name)} برد`;
   }
-
   let scoreText;
   if (view.playerCount === 4) {
     const amA = my === 0 || my === 2;
     scoreText = `امتیاز — تیم تو: <b>${amA ? view.gameScore[0] : view.gameScore[1]}</b> | حریف: <b>${amA ? view.gameScore[1] : view.gameScore[0]}</b>`;
   } else {
-    scoreText = view.players.map((p,i) =>
-      `${escapeHtml(p.name)}: <b>${view.gameScore[i]}</b>`
-    ).join(' | ');
+    scoreText = view.players.map((p,i) => `${escapeHtml(p.name)}: <b>${view.gameScore[i]}</b>`).join(' | ');
   }
-
   const canNext = isHost || view.hakem === my;
   showModal(`
     <h2>پایان دور</h2>
@@ -1631,16 +1268,13 @@ function showRoundOverModal(view) {
       : `<p class="hint">منتظر شروع دور بعد...</p>`}
   `);
 }
-
 function showMatchOverModal(view) {
   let text;
   if (view.playerCount === 4) {
     const amA = view.myIndex === 0 || view.myIndex === 2;
     text = (view.matchWinner === 'A') === amA ? '🏆 تیم تو قهرمان شد!' : '😔 تیم حریف قهرمان شد';
   } else {
-    text = view.matchWinner === view.myIndex
-      ? '🏆 تو قهرمان شدی!'
-      : `😔 ${escapeHtml(view.players[view.matchWinner].name)} قهرمان شد`;
+    text = view.matchWinner === view.myIndex ? '🏆 تو قهرمان شدی!' : `😔 ${escapeHtml(view.players[view.matchWinner].name)} قهرمان شد`;
   }
   showModal(`
     <h2>🏁 پایان بازی</h2>
@@ -1648,15 +1282,11 @@ function showMatchOverModal(view) {
     <button class="primary" onclick="location.reload()">🔄 بازی جدید</button>
   `);
 }
-
 window.requestNextRound = () => {
   if (isHost) startNewRound(false);
   else sendToHost({ type: 'nextRound' });
 };
 
-/* ============================================================
-   دکمه‌های حکم
-   ============================================================ */
 document.querySelectorAll('#trumpChooser button').forEach(btn => {
   btn.onclick = () => {
     initAudio();
