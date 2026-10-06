@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🃏 حکم حرفه‌ای</title>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: Tahoma, sans-serif;
+    background: radial-gradient(circle at 50% 0%, #2e7d32, #0a2e10 80%);
+    color: #fff;
+    margin: 0; padding: 10px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  #app { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.7rem; text-align: center; margin: 12px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+  h3 { text-align: center; margin: 8px 0; }
+
+  button {
+    font-family: inherit;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffc107, #ff9800);
+    color: #222; font-weight: bold;
+    margin: 4px; cursor: pointer;
+    font-size: 0.95rem;
+    box-shadow: 0 3px 0 #b26a00, 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.08s, box-shadow 0.08s;
+  }
+  button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #b26a00; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: 0 3px 0 #555; }
+  button.primary {
+    background: linear-gradient(180deg, #66bb6a, #388e3c);
+    color: #fff; box-shadow: 0 3px 0 #1b5e20, 0 4px 8px rgba(0,0,0,0.3);
+  }
+  button.primary:active:not(:disabled) { box-shadow: 0 1px 0 #1b5e20; }
+
+  input, select {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid #1b5e20;
+    width: 150px; text-align: center;
+    font-size: 1rem; font-family: inherit;
+    background: #fff; color: #222;
+    outline: none;
+  }
+  input:focus, select:focus { border-color: #ffb300; }
+
+  .hidden { display: none !important; }
+
+  /* منو */
+  #menu { text-align: center; margin-top: 20px; }
+  #menu .section { margin: 12px 0; }
+  #status { margin-top: 16px; font-size: 1rem; color: #ffeb3b; min-height: 22px; }
+  #status code {
+    background: rgba(0,0,0,0.4); padding: 4px 10px;
+    border-radius: 6px; font-size: 1.3rem; letter-spacing: 3px;
+  }
+
+  /* لابی */
+  #lobby {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  #lobbyList {
+    list-style: none; padding: 0; margin: 12px 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
+  #lobbyList li {
+    background: linear-gradient(180deg, #43a047, #2e7d32);
+    padding: 8px 14px; border-radius: 20px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+  }
+  #lobbyList li.disconnected { opacity: 0.5; }
+  #lobbyList li.self { outline: 2px solid #ffeb3b; }
+  .hint { font-size: 0.85rem; opacity: 0.8; }
+
+  /* بازی */
+  #game { display: none; }
+  .info {
+    background: rgba(0,0,0,0.4);
+    padding: 10px; border-radius: 10px;
+    margin-bottom: 8px; text-align: center;
+    font-size: 0.9rem; line-height: 1.7;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .info b { color: #ffeb3b; }
+
+  .opponents {
+    display: flex; justify-content: space-around; gap: 6px;
+    margin: 8px 0;
+  }
+  .opponent {
+    text-align: center; flex: 1;
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px; padding: 8px 4px;
+    transition: background 0.3s, transform 0.3s;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .opponent.turn {
+    background: rgba(255,179,0,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(255,179,0,0.6);
+  }
+  .opponent .name { font-size: 0.8rem; margin-bottom: 3px; font-weight: bold; }
+  .opponent .cards {
+    font-size: 1.5rem; letter-spacing: 1px;
+    direction: ltr; line-height: 1;
+  }
+  .opponent .count { font-size: 0.75rem; opacity: 0.85; margin-top: 3px; }
+
+  .table {
+    background: linear-gradient(180deg, #2e7d32, #1b5e20);
+    border: 2px solid #81c784;
+    border-radius: 14px;
+    min-height: 110px;
+    display: flex; justify-content: center; align-items: center;
+    gap: 14px; margin: 10px 0; padding: 10px;
+    flex-wrap: wrap;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .trick-card { text-align: center; animation: cardDrop 0.3s ease; }
+  .trick-card.winner .card {
+    outline: 3px solid #ffeb3b;
+    box-shadow: 0 0 18px #ffeb3b;
+  }
+  .trick-player { font-size: 0.7rem; margin-bottom: 2px; opacity: 0.9; }
+
+  .hand {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 6px; margin-top: 10px; min-height: 60px;
+  }
+  .card {
+    display: inline-block; background: #fff; color: #111;
+    border-radius: 8px; padding: 10px 7px;
+    min-width: 46px; text-align: center;
+    font-weight: bold; font-size: 1.05rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    border: none; user-select: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card.red { color: #c62828; }
+  .card.playable {
+    outline: 3px solid #ffeb3b;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+  }
+  .card.playable:hover, .card.playable:active { transform: translateY(-6px); }
+  .card.disabled { opacity: 0.55; }
+
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 3px 6px rgba(0,0,0,0.4), 0 0 0 0 rgba(255,235,59,0.6); }
+    50% { box-shadow: 0 3px 6px rgba(0,0,0,0.4), 0 0 0 8px rgba(255,235,59,0); }
+  }
+  @keyframes cardDrop {
+    from { transform: translateY(-30px) scale(0.7); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .trump-chooser {
+    text-align: center; margin: 12px 0; padding: 14px;
+    background: rgba(0,0,0,0.4); border-radius: 12px;
+    animation: popIn 0.4s ease;
+  }
+  .trump-chooser button {
+    font-size: 1.7rem; padding: 6px 16px;
+    background: #fff; color: #000;
+    box-shadow: 0 3px 0 #666;
+  }
+  .trump-chooser button[data-suit="♥"],
+  .trump-chooser button[data-suit="♦"] { color: #c62828; }
+
+  .message {
+    text-align: center; margin-top: 12px;
+    min-height: 26px; color: #ffeb3b; font-weight: bold;
+    font-size: 1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* چت */
+  #chatBtn {
+    position: fixed; bottom: 14px; left: 14px;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(180deg, #2196f3, #1565c0);
+    color: #fff; font-size: 1.4rem; padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 100;
+  }
+  #chatPanel {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #1a1a1a;
+    border-top: 2px solid #ffb300;
+    border-radius: 16px 16px 0 0;
+    max-height: 60vh; display: flex; flex-direction: column;
+    z-index: 101;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+  }
+  #chatPanel.open { transform: translateY(0); }
+  #chatHeader {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; border-bottom: 1px solid #333;
+  }
+  #chatHeader button {
+    padding: 4px 10px; font-size: 0.85rem;
+    background: #444; color: #fff; box-shadow: none;
+  }
+  #chatMessages {
+    flex: 1; overflow-y: auto; padding: 10px 14px;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 120px;
+  }
+  .chat-msg {
+    background: #2a2a2a; padding: 6px 10px;
+    border-radius: 10px; font-size: 0.9rem;
+    max-width: 80%; word-wrap: break-word;
+  }
+  .chat-msg.self {
+    background: #2e7d32; align-self: flex-end;
+  }
+  .chat-msg .sender { font-size: 0.75rem; color: #ffb300; font-weight: bold; }
+  #chatInput {
+    display: flex; padding: 8px; border-top: 1px solid #333; gap: 6px;
+  }
+  #chatInput input {
+    flex: 1; width: auto; text-align: right;
+  }
+
+  /* مودال */
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200; padding: 16px;
+    animation: fadeIn 0.3s;
+  }
+  .modal .box {
+    background: linear-gradient(180deg, #1b5e20, #0a2e10);
+    border: 2px solid #ffb300;
+    border-radius: 16px;
+    padding: 24px; text-align: center;
+    max-width: 400px; width: 100%;
+    animation: popIn 0.4s ease;
+    box-shadow: 0 0 40px rgba(255,179,0,0.5);
+  }
+  .modal h2 { margin: 0 0 12px; font-size: 1.5rem; }
+  .modal p { margin: 8px 0; line-height: 1.6; }
+  .score-line { font-size: 1.1rem; margin: 12px 0; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- منو -->
+  <div id="menu">
+    <h1>🃏 حکم حرفه‌ای</h1>
+
+    <div class="section">
+      <input id="nameInput" placeholder="اسم شما" maxlength="12">
+    </div>
+
+    <div class="section">
+      <label>تعداد بازیکن: </label>
+      <select id="playerCountSelect">
+        <option value="2">۲ نفره</option>
+        <option value="3">۳ نفره</option>
+        <option value="4" selected>۴ نفره (تیمی)</option>
+      </select>
+    </div>
+
+    <div class="section">
+      <label>امتیاز تا: </label>
+      <select id="targetScoreSelect">
+        <option value="3">۳</option>
+        <option value="5">۵</option>
+        <option value="7" selected>۷</option>
+      </select>
+    </div>
+
+    <div class="section">
+      <button id="createBtn" class="primary">🏠 ساخت اتاق</button>
+    </div>
+
+    <div class="section">
+      <input id="roomInput" placeholder="کد اتاق" maxlength="4" inputmode="numeric">
+      <button id="joinBtn">🚪 ورود</button>
+    </div>
+
+    <p id="status"></p>
+
+    <!-- لابی -->
+    <div id="lobby" class="hidden">
+      <h3>⏳ اتاق انتظار</h3>
+      <p>بازیکنان: <span id="connectedCount">1</span> / <span id="totalCount">4</span></p>
+      <ul id="lobbyList"></ul>
+      <button id="startBtn" class="primary" disabled>▶️ شروع بازی</button>
+      <p class="hint" id="lobbyHint">منتظر بقیه بازیکنان...</p>
+    </div>
+  </div>
+
+  <!-- بازی -->
+  <div id="game">
+    <div class="info" id="info"></div>
+    <div class="opponents" id="opponents"></div>
+    <div class="table" id="table"></div>
+    <div class="trump-chooser hidden" id="trumpChooser">
+      <p style="margin:0 0 8px;">حکم را انتخاب کن:</p>
+      <button data-suit="♠">♠</button>
+      <button data-suit="♥">♥</button>
+      <button data-suit="♦">♦</button>
+      <button data-suit="♣">♣</button>
+    </div>
+    <div class="hand" id="myHand"></div>
+    <div class="message" id="message"></div>
+  </div>
+</div>
+
+<!-- چت -->
+<button id="chatBtn" title="چت">💬</button>
+<div id="chatPanel">
+  <div id="chatHeader">
+    <b>💬 چت</b>
+    <button id="chatClose">بستن ✕</button>
+  </div>
+  <div id="chatMessages"></div>
+  <div id="chatInput">
+    <input id="chatText" placeholder="پیام..." maxlength="200">
+    <button id="chatSend" class="primary">ارسال</button>
+  </div>
+</div>
+
+<!-- مودال -->
+<div id="modal" class="modal hidden">
+  <div class="box" id="modalBox"></div>
+</div>
+
+<script>
+/* ============ تنظیمات اولیه ============ */
+const SUITS = ['♠', '♥', '♦', '♣'];
+const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+const SUIT_ORDER = { '♠': 0, '♥': 1, '♦': 2, '♣': 3 };
+
+let peer = null;
+let hostConnections = {};   // slot -> PeerJS conn (میزبان)
+let myConn = null;          // اتصال من (مهمان)
+let isHost = false;
+let myIndex = 0;
+let playerCount = 4;
+let targetScore = 7;
+let state = null;
+let currentView = null;
+let chatOpen = false;
+
+/* شناسه یکتا برای reconnect */
+function getOrCreateId() {
+  let id = localStorage.getItem('hokm_id');
+  if (!id) {
+    id = 'p' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('hokm_id', id);
+  }
+  return id;
+}
+const MY_ID = getOrCreateId();
+let myName = localStorage.getItem('hokm_name') || '';
+document.getElementById('nameInput').value = myName;
+
+/* ============ صدا ============ */
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+function beep(freq, dur=0.1, type='sine', vol=0.08) {
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(vol, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + dur);
+}
+const sndCard  = () => beep(500, 0.06, 'triangle', 0.05);
+const sndTurn  = () => beep(880, 0.12, 'sine', 0.06);
+const sndTrick = () => { beep(700,0.1); setTimeout(()=>beep(1000,0.12),80); };
+const sndRound = () => [600,800,1000,1300].forEach((f,i)=>setTimeout(()=>beep(f,0.15),i*120));
+const sndMatch = () => [523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>beep(f,0.2),i*150));
+const sndErr   = () => beep(200, 0.15, 'sawtooth', 0.06);
+const sndChat  = () => beep(1200, 0.05, 'sine', 0.04);
+
+/* ============ ابزار کارت ============ */
+function makeDeck() {
+  const d = [];
+  for (const s of SUITS) for (let i=0;i<RANKS.length;i++)
+    d.push({ suit: s, rank: RANKS[i], value: i+2, id: s+RANKS[i] });
+  return d;
+}
+function shuffle(a) {
+  for (let i=a.length-1;i>0;i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function sortHand(h) {
+  return h.sort((a,b) => a.suit !== b.suit
+    ? SUIT_ORDER[a.suit] - SUIT_ORDER[b.suit]
+    : a.value - b.value);
+}
+const cardsPerPlayer = n => ({2:13, 3:17, 4:13}[n]);
+
+/* ============ ساخت اتاق (میزبان) ============ */
+document.getElementById('createBtn').onclick = () => {
+  initAudio();
+  saveName();
+  playerCount = +document.getElementById('playerCountSelect').value;
+  targetScore = +document.getElementById('targetScoreSelect').value;
+
+  const code = Math.floor(1000 + Math.random()*9000).toString();
+  peer = new Peer('hokm-'+code, { debug: 0 });
+
+  peer.on('open', () => {
+    isHost = true; myIndex = 0;
+    document.getElementById('status').innerHTML =
+      'کد اتاق: <code>'+code+'</code><br><small class="hint">این کد رو برای دوستات بفرست</small>';
+    document.getElementById('lobby').classList.remove('hidden');
+    document.getElementById('totalCount').textContent = playerCount;
+    state = {
+      phase: 'lobby',
+      playerCount, targetScore,
+      players: Array.from({length: playerCount}, (_,i) => ({
+        playerId: i === 0 ? MY_ID : null,
+        name: i === 0 ? myName : null,
+        connected: i === 0
+      })),
+      chat: []
+    };
+    updateLobby();
+  });
+
+  peer.on('connection', (conn) => {
+    conn.on('data', (data) => handleDataFromClient(conn, data));
+    conn.on('close', () => {
+      for (const slot in hostConnections) {
+        if (hostConnections[slot] === conn) {
+          if (state && state.players[slot]) state.players[slot].connected = false;
+          delete hostConnections[slot];
+        }
+      }
+      updateLobby();
+      broadcast();
+    });
+  });
+
+  peer.on('error', err => {
+    document.getElementById('status').textContent = 'خطا: ' + err.message;
+  });
+};
+
+function saveName() {
+  const v = document.getElementById('nameInput').value.trim() || 'بازیکن';
+  myName = v;
+  localStorage.setItem('hokm_name', v);
+}
+
+/* ============ ورود به اتاق (مهمان) ============ */
+document.getElementById('joinBtn').onclick = () => {
+  initAudio();
+  saveName();
+  const code = document.getElementById('roomInput').value.trim();
+  if (!code) return;
+
+  peer = new Peer({ debug: 0 });
+  peer.on('open', () => {
+    myConn = peer.connect('hokm-'+code, { reliable: true });
+    myConn.on('open', () => {
+      isHost = false;
+      myConn.send({ type: 'hello', playerId: MY_ID, name: myName });
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game').style.display = 'block';
+      document.getElementById('message').textContent = 'وصل شدی! منتظر شروع...';
+    });
+    myConn.on('data', (data) => {
+      if (data.type === 'state') {
+        currentView = data.view;
+        myIndex = data.view.myIndex;
+        render(data.view);
+      } else if (data.type === 'full') {
+        showModal(`<h2>⛔ اتاق پر است</h2><p>${data.msg||''}</p>`);
+      }
+    });
+    myConn.on('close', () => {
+      document.getElementById('message').textContent = 'اتصال قطع شد... تلاش برای اتصال مجدد';
+      setTimeout(() => tryReconnect(code), 2000);
+    });
+  });
+  peer.on('error', err => {
+    document.getElementById('status').textContent = 'خطا: ' + err.message;
+  });
+};
+
+let reconnectAttempts = 0;
+function tryReconnect(code) {
+  if (reconnectAttempts++ > 5) {
+    showModal(`<h2>اتصال قطع شد</h2><p>نتونستم وصل بشم. دوباره امتحان کن.</p>
+      <button onclick="location.reload()">رفرش</button>`);
+    return;
+  }
+  myConn = peer.connect('hokm-'+code, { reliable: true });
+  myConn.on('open', () => {
+    reconnectAttempts = 0;
+    myConn.send({ type: 'hello', playerId: MY_ID, name: myName });
+    document.getElementById('message').textContent = 'دوباره وصل شدی!';
+  });
+  myConn.on('data', (data) => {
+    if (data.type === 'state') {
+      currentView = data.view; myIndex = data.view.myIndex;
+      render(data.view);
+    }
+  });
+  myConn.on('close', () => setTimeout(() => tryReconnect(code), 2000));
+}
+
+/* ============ دریافت پیام‌های مهمان (سمت میزبان) ============ */
+function handleDataFromClient(conn, data) {
+  if (!isHost || !state) return;
+
+  if (data.type === 'hello') {
+    // پیدا کردن اسلات برای این playerId
+    let slot = state.players.findIndex(p => p.playerId === data.playerId);
+    if (slot === -1) {
+      // اسلات آزاد پیدا کن
+      slot = state.players.findIndex(p => !p.playerId);
+      if (slot === -1) {
+        conn.send({ type: 'full', msg: 'ظرفیت اتاق پر است' });
+        setTimeout(() => conn.close(), 100);
+        return;
+      }
+      state.players[slot].playerId = data.playerId;
+    }
+    state.players[slot].name = data.name || 'بازیکن';
+    state.players[slot].connected = true;
+    hostConnections[slot] = conn;
+    conn._slot = slot;
+
+    updateLobby();
+    broadcast();
+
+    // اگه بازی شروع شده، وضعیت فعلی رو براش بفرست
+    if (state.phase !== 'lobby') {
+      conn.send({ type: 'state', view: makeView(slot) });
+    }
+  }
+
+  const slot = conn._slot;
+  if (slot === undefined) return;
+
+  if (data.type === 'chooseTrump') chooseTrump(slot, data.suit);
+  if (data.type === 'playCard') playCard(slot, data.cardId);
+  if (data.type === 'chat') {
+    addChat(slot, data.text);
+  }
+  if (data.type === 'nextRound') {
+    if (slot === 0 || slot === state.hakem) {
+      // فقط میزبان یا حاکم می‌تونه دور بعد رو شروع کنه
+      startNewRound();
+    }
+  }
+}
+
+/* ============ لابی ============ */
+function updateLobby() {
+  if (!state) return;
+  const connected = state.players.filter(p => p.connected).length;
+  document.getElementById('connectedCount').textContent = connected;
+  document.getElementById('totalCount').textContent = playerCount;
+
+  const list = document.getElementById('lobbyList');
+  list.innerHTML = '';
+  state.players.forEach((p, i) => {
+    const li = document.createElement('li');
+    li.textContent = (p.name || `جای خالی ${i+1}`) + (i === 0 ? ' 👑' : '');
+    if (!p.connected) li.classList.add('disconnected');
+    if (i === myIndex) li.classList.add('self');
+    list.appendChild(li);
+  });
+
+  const startBtn = document.getElementById('startBtn');
+  startBtn.disabled = connected < playerCount;
+  document.getElementById('lobbyHint').textContent =
+    connected >= playerCount ? '✅ همه حاضرند! شروع کن' : `منتظر ${playerCount - connected} بازیکن دیگر...`;
+}
+
+/* ============ شروع بازی ============ */
+document.getElementById('startBtn').onclick = () => startNewRound(true);
+
+function startNewRound(isFirst=false) {
+  if (!isHost || !state) return;
+
+  if (isFirst) {
+    state.gameScore = state.playerCount === 4 ? [0, 0] : Array(state.playerCount).fill(0);
+    state.hakem = Math.floor(Math.random() * playerCount);
+  } else {
+    // حاکم می‌شه نفر بعدی
+    state.hakem = (state.hakem + 1) % playerCount;
+  }
+
+  const deck = shuffle(makeDeck());
+  const cpp = cardsPerPlayer(playerCount);
+  const hands = {};
+  for (let i = 0; i < playerCount; i++)
+    hands[i] = sortHand(deck.slice(i*cpp, (i+1)*cpp));
+
+  state.phase = 'choosing';
+  state.hands = hands;
+  state.trump = null;
+  state.turn = state.hakem;
+  state.trick = [];
+  state.tricksWon = Array(playerCount).fill(0);
+  state.trickNumber = 1;
+  state.totalTricks = cpp;
+  state.roundWinner = null;
+  state.matchWinner = null;
+  state.lastTrickWinner = null;
+  state.message = state.hakem === myIndex
+    ? 'تو حاکمی! حکم را انتخاب کن'
+    : `${state.players[state.hakem].name} حاکم است...`;
+
+  broadcast();
+}
+
+/* ============ ساخت نمای هر بازیکن ============ */
+function makeView(p) {
+  const oppCounts = {};
+  for (let i = 0; i < state.playerCount; i++)
+    if (i !== p) oppCounts[i] = state.hands[i].length;
+
+  return {
+    phase: state.phase,
+    playerCount: state.playerCount,
+    targetScore: state.targetScore,
+    players: state.players,
+    trump: state.trump,
+    turn: state.turn,
+    trick: state.trick,
+    tricksWon: state.tricksWon,
+    trickNumber: state.trickNumber,
+    totalTricks: state.totalTricks,
+    gameScore: state.gameScore,
+    message: state.message,
+    myHand: state.hands[p],
+    opponentCounts: oppCounts,
+    hakem: state.hakem,
+    myIndex: p,
+    roundWinner: state.roundWinner,
+    matchWinner: state.matchWinner,
+    lastTrickWinner: state.lastTrickWinner,
+    chat: state.chat
+  };
+}
+
+function broadcast() {
+  if (!isHost || !state) return;
+  render(makeView(0));
+  for (let i = 1; i < state.playerCount; i++) {
+    const c = hostConnections[i];
+    if (c && c.open) c.send({ type: 'state', view: makeView(i) });
+  }
+}
+
+/* ============ منطق بازی ============ */
+function chooseTrump(player, suit) {
+  if (!state || state.phase !== 'choosing' || state.hakem !== player) return;
+  state.trump = suit;
+  state.phase = 'playing';
+  state.turn = state.hakem;
+  state.message = `حکم: ${suit} — ${state.players[state.hakem].name} شروع می‌کند`;
+  sndTurn();
+  broadcast();
+}
+
+function playCard(player, cardId) {
+  if (!state || state.phase !== 'playing' || state.turn !== player) return;
+  const hand = state.hands[player];
+  const idx = hand.findIndex(c => c.id === cardId);
+  if (idx === -1) return;
+  const card = hand[idx];
+
+  if (state.trick.length > 0) {
+    const leadSuit = state.trick[0].card.suit;
+    const hasLead = hand.some(c => c.suit === leadSuit);
+    if (hasLead && card.suit !== leadSuit) {
+      state.message = '❌ باید از خال زمین بازی کنی!';
+      sndErr();
+      broadcast();
+      return;
+    }
+  }
+
+  hand.splice(idx, 1);
+  state.trick.push({ player, card });
+  sndCard();
+  state.lastTrickWinner = null;
+
+  if (state.trick.length === state.playerCount) {
+    setTimeout(() => resolveTrick(), 500);
+  } else {
+    state.turn = (player + 1) % state.playerCount;
+    state.message = '';
+  }
+  broadcast();
+}
+
+function resolveTrick() {
+  const trump = state.trump;
+  let winner = state.trick[0].player;
+  let bestCard = state.trick[0].card;
+
+  for (let i = 1; i < state.trick.length; i++) {
+    const { player, card } = state.trick[i];
+    if (card.suit === bestCard.suit) {
+      if (card.value > bestCard.value) { winner = player; bestCard = card; }
+    } else if (card.suit === trump && bestCard.suit !== trump) {
+      winner = player; bestCard = card;
+    }
+  }
+
+  state.tricksWon[winner]++;
+  state.turn = winner;
+  state.lastTrickWinner = winner;
+  state.message = `${state.players[winner].name} این دست را برد 🎯`;
+  sndTrick();
+
+  // پایان دور؟
+  if (state.trickNumber >= state.totalTricks) {
+    endRound();
+    broadcast();
+    return;
+  }
+
+  state.trickNumber++;
+  state.trick = [];
+  broadcast();
+}
+
+function endRound() {
+  let roundWinner;
+  if (state.playerCount === 4) {
+    const tA = state.tricksWon[0] + state.tricksWon[2];
+    const tB = state.tricksWon[1] + state.tricksWon[3];
+    if (tA > tB) { roundWinner = 'A'; state.gameScore[0]++; }
+    else if (tB > tA) { roundWinner = 'B'; state.gameScore[1]++; }
+    else roundWinner = null;
+  } else {
+    let max = -1, winners = [];
+    for (let i = 0; i < state.playerCount; i++) {
+      if (state.tricksWon[i] > max) { max = state.tricksWon[i]; winners = [i]; }
+      else if (state.tricksWon[i] === max) winners.push(i);
+    }
+    if (winners.length === 1) {
+      roundWinner = winners[0];
+      state.gameScore[winners[0]]++;
+    } else roundWinner = null;
+  }
+
+  state.roundWinner = roundWinner;
+
+  // پایان کل بازی؟
+  const finished = state.gameScore.some(s => s >= state.targetScore);
+  if (finished) {
+    state.phase = 'matchover';
+    if (state.playerCount === 4)
+      state.matchWinner = state.gameScore[0] >= state.targetScore ? 'A' : 'B';
+    else
+      state.matchWinner = state.gameScore.indexOf(Math.max(...state.gameScore));
+    sndMatch();
+  } else {
+    state.phase = 'roundover';
+    sndRound();
+  }
+}
+
+/* ============ چت ============ */
+function addChat(fromSlot, text) {
+  if (!state || !text) return;
+  state.chat.push({
+    from: state.players[fromSlot].name || `بازیکن ${fromSlot+1}`,
+    text: text.slice(0, 200),
+    time: Date.now(),
+    slot: fromSlot
+  });
+  if (state.chat.length > 100) state.chat = state.chat.slice(-100);
+  sndChat();
+  broadcast();
+}
+
+function sendChat() {
+  const inp = document.getElementById('chatText');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+
+  if (isHost) addChat(myIndex, text);
+  else myConn.send({ type: 'chat', text });
+}
+
+document.getElementById('chatSend').onclick = sendChat;
+document.getElementById('chatText').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendChat();
+});
+document.getElementById('chatBtn').onclick = () => {
+  chatOpen = true;
+  document.getElementById('chatPanel').classList.add('open');
+  if (currentView) renderChat(currentView);
+};
+document.getElementById('chatClose').onclick = () => {
+  chatOpen = false;
+  document.getElementById('chatPanel').classList.remove('open');
+};
+
+function renderChat(view) {
+  const box = document.getElementById('chatMessages');
+  const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 50;
+  box.innerHTML = view.chat.map(m => `
+    <div class="chat-msg ${m.slot === view.myIndex ? 'self' : ''}">
+      <div class="sender">${escapeHtml(m.from)}</div>
+      <div>${escapeHtml(m.text)}</div>
+    </div>
+  `).join('');
+  if (nearBottom) box.scrollTop = box.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+/* ============ بررسی مجاز بودن کارت ============ */
+function canPlay(card, view) {
+  if (view.phase !== 'playing' || view.turn !== view.myIndex) return false;
+  if (view.trick.length > 0) {
+    const lead = view.trick[0].card.suit;
+    const hasLead = view.myHand.some(c => c.suit === lead);
+    if (hasLead && card.suit !== lead) return false;
+  }
+  return true;
+}
+
+/* ============ رسم صفحه ============ */
+let lastRenderedTurn = -1;
+let lastRenderedPhase = '';
+
+function render(view) {
+  currentView = view;
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('game').style.display = 'block';
+
+  const my = view.myIndex;
+  const pc = view.playerCount;
+
+  // نوار اطلاعات
+  let info = `حکم: <b>${view.trump || '—'}</b> | دست: <b>${Math.min(view.trickNumber, view.totalTricks)}</b>/${view.totalTricks}`;
+  if (pc === 4) {
+    const tA = view.gameScore[0], tB = view.gameScore[1];
+    const amA = my === 0 || my === 2;
+    info += ` | امتیاز تیم تو: <b>${amA ? tA : tB}</b> — حریف: <b>${amA ? tB : tA}</b>`;
+    info += ` <span class="hint">(تا ${view.targetScore})</span>`;
+  } else {
+    info += ` | تو: <b>${view.gameScore[my]}</b>`;
+    for (let i = 0; i < pc; i++)
+      if (i !== my) info += ` | ${view.players[i].name}: <b>${view.gameScore[i]}</b>`;
+    info += ` <span class="hint">(تا ${view.targetScore})</span>`;
+  }
+  document.getElementById('info').innerHTML = info;
+
+  // حریف‌ها
+  const oppEl = document.getElementById('opponents');
+  oppEl.innerHTML = '';
+  for (let i = 0; i < pc; i++) {
+    if (i === my) continue;
+    const div = document.createElement('div');
+    div.className = 'opponent' + (view.turn === i && view.phase === 'playing' ? ' turn' : '');
+    const partner = pc === 4 && (
+      (my === 0 && i === 2) || (my === 2 && i === 0) ||
+      (my === 1 && i === 3) || (my === 3 && i === 1)
+    );
+    const disconnected = !view.players[i].connected;
+    const cnt = view.opponentCounts[i];
+    div.innerHTML = `
+      <div class="name">
+        ${view.hakem === i ? '👑 ' : ''}${escapeHtml(view.players[i].name || 'ب'+i+1)}
+        ${partner ? '🤝' : ''}${disconnected ? ' 📴' : ''}
+      </div>
+      <div class="cards">${'🂠'.repeat(Math.min(cnt, 8))}${cnt > 8 ? '…' : ''}</div>
+      <div class="count">${cnt} کارت</div>
+    `;
+    oppEl.appendChild(div);
+  }
+
+  // میز
+  const tableEl = document.getElementById('table');
+  tableEl.innerHTML = view.trick.map(p => `
+    <div class="trick-card ${view.lastTrickWinner === p.player ? 'winner' : ''}">
+      <div class="trick-player">${escapeHtml(view.players[p.player].name)}</div>
+      <div class="card${(p.card.suit === '♥' || p.card.suit === '♦') ? ' red' : ''}">${p.card.rank}${p.card.suit}</div>
+    </div>
+  `).join('');
+
+  // دست من
+  const handEl = document.getElementById('myHand');
+  handEl.innerHTML = '';
+  view.myHand.forEach(card => {
+    const playable = canPlay(card, view);
+    const btn = document.createElement('button');
+    const red = (card.suit === '♥' || card.suit === '♦') ? ' red' : '';
+    btn.className = 'card' + red + (playable ? ' playable' : '') + (view.phase === 'playing' && !playable ? ' disabled' : '');
+    btn.textContent = card.rank + card.suit;
+    btn.disabled = !playable;
+    btn.onclick = () => {
+      if (isHost) playCard(my, card.id);
+      else myConn.send({ type: 'playCard', cardId: card.id });
+    };
+    handEl.appendChild(btn);
+  });
+
+  // انتخاب حکم
+  const chooser = document.getElementById('trumpChooser');
+  chooser.classList.toggle('hidden', !(view.phase === 'choosing' && view.hakem === my));
+
+  // پیام
+  let msg = view.message || '';
+  if (view.phase === 'playing' && !msg) {
+    msg = view.turn === my ? '👉 نوبت توست' : `نوبت ${escapeHtml(view.players[view.turn].name)}`;
+  }
+  if (view.phase === 'choosing' && view.hakem !== my) {
+    msg = `⏳ ${escapeHtml(view.players[view.hakem].name)} در حال انتخاب حکم...`;
+  }
+  document.getElementById('message').textContent = msg;
+
+  // صدای نوبت من
+  if (view.phase === 'playing' && view.turn === my && lastRenderedTurn !== my) {
+    sndTurn();
+  }
+  lastRenderedTurn = view.turn;
+
+  // مودال پایان دور/بازی
+  if (view.phase === 'roundover' && lastRenderedPhase !== 'roundover') {
+    showRoundOverModal(view);
+  }
+  if (view.phase === 'matchover' && lastRenderedPhase !== 'matchover') {
+    showMatchOverModal(view);
+  }
+  if (view.phase !== 'roundover' && view.phase !== 'matchover') hideModal();
+  lastRenderedPhase = view.phase;
+
+  if (chatOpen) renderChat(view);
+}
+
+/* ============ مودال‌ها ============ */
+function showModal(html) {
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modal').classList.remove('hidden');
+}
+function hideModal() {
+  document.getElementById('modal').classList.add('hidden');
+}
+
+function showRoundOverModal(view) {
+  const my = view.myIndex;
+  let winnerText;
+  if (view.roundWinner === null) winnerText = '🤝 مساوی شد!';
+  else if (view.playerCount === 4) {
+    const teamA = view.roundWinner === 'A';
+    const amA = my === 0 || my === 2;
+    winnerText = (teamA === amA ? '🎉 تیم تو برد!' : '😔 تیم حریف برد');
+  } else {
+    winnerText = view.roundWinner === my ? '🎉 بردی!' : `😔 ${escapeHtml(view.players[view.roundWinner].name)} برد`;
+  }
+
+  let scoreText;
+  if (view.playerCount === 4) {
+    const amA = my === 0 || my === 2;
+    scoreText = `امتیاز — تیم تو: <b>${amA ? view.gameScore[0] : view.gameScore[1]}</b> | حریف: <b>${amA ? view.gameScore[1] : view.gameScore[0]}</b>`;
+  } else {
+    scoreText = view.players.map((p,i) =>
+      `${escapeHtml(p.name)}: <b>${view.gameScore[i]}</b>`
+    ).join(' | ');
+  }
+
+  const isHostOrHakem = isHost || view.hakem === my;
+  showModal(`
+    <h2>پایان دور</h2>
+    <p>${winnerText}</p>
+    <p class="score-line">${scoreText}</p>
+    ${isHostOrHakem
+      ? `<button class="primary" onclick="requestNextRound()">🔄 دور بعد</button>`
+      : `<p class="hint">منتظر شروع دور بعد...</p>`}
+  `);
+}
+
+function showMatchOverModal(view) {
+  let text;
+  if (view.playerCount === 4) {
+    const amA = view.myIndex === 0 || view.myIndex === 2;
+    const myTeamWon = (view.matchWinner === 'A') === amA;
+    text = myTeamWon ? '🏆 تیم تو قهرمان شد!' : '😔 تیم حریف قهرمان شد';
+  } else {
+    text = view.matchWinner === view.myIndex
+      ? '🏆 تو قهرمان شدی!'
+      : `😔 ${escapeHtml(view.players[view.matchWinner].name)} قهرمان شد`;
+  }
+  showModal(`
+    <h2>🏁 پایان بازی</h2>
+    <p style="font-size:1.2rem;margin:16px 0;">${text}</p>
+    <p class="hint">برای شروع مجدد، صفحه رو رفرش کن</p>
+    <button class="primary" onclick="location.reload()">🔄 بازی جدید</button>
+  `);
+}
+
+window.requestNextRound = () => {
+  if (isHost) {
+    startNewRound(false);
+  } else {
+    myConn.send({ type: 'nextRound' });
+  }
+};
+
+/* ============ دکمه‌های حکم ============ */
+document.querySelectorAll('#trumpChooser button').forEach(btn => {
+  btn.onclick = () => {
+    initAudio();
+    const suit = btn.dataset.suit;
+    if (isHost) chooseTrump(myIndex, suit);
+    else myConn.send({ type: 'chooseTrump', suit });
+  };
+});
+</script>
+</body>
+</html>
