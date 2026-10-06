@@ -94,10 +94,9 @@
   .opponent {
     text-align: center; flex: 1;
     background: rgba(0,0,0,0.25); border-radius: 10px; padding: 8px 4px;
-    transition: background 0.3s, transform 0.3s;
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .opponent.turn { background: rgba(255,179,0,0.4); transform: translateY(-2px); box-shadow: 0 0 12px rgba(255,179,0,0.6); }
+  .opponent.turn { background: rgba(255,179,0,0.4); box-shadow: 0 0 12px rgba(255,179,0,0.6); }
   .opponent .name { font-size: 0.8rem; margin-bottom: 2px; font-weight: bold; }
   .opponent .score { font-size: 0.7rem; margin-bottom: 4px; background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 6px; display: inline-block; }
   .opponent .score b { color: #ffeb3b; }
@@ -138,62 +137,22 @@
     gap: 14px; margin: 8px 0; padding: 10px; flex-wrap: wrap;
     box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
   }
-  .trick-card { text-align: center; animation: cardDrop 0.3s ease; }
-  .trick-card.winner .card { outline: 3px solid #ffeb3b; box-shadow: 0 0 18px #ffeb3b; }
+  .trick-card { text-align: center; }
   .trick-player { font-size: 0.7rem; margin-bottom: 3px; opacity: 0.9; font-weight: bold; }
-  .my-area { margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 12px; padding: 8px 6px; border: 1px solid rgba(255,255,255,0.06); transition: background 0.3s; }
+  .my-area { margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 12px; padding: 8px 6px; border: 1px solid rgba(255,255,255,0.06); }
   .my-area.turn { background: rgba(255,179,0,0.2); box-shadow: 0 0 14px rgba(255,179,0,0.5); }
   .my-label { text-align: center; font-size: 0.85rem; margin-bottom: 6px; font-weight: bold; }
   .my-label .score { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 8px; margin-right: 6px; font-size: 0.75rem; display: inline-block; }
   .my-label .score b { color: #ffeb3b; }
-  .hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 80px; }
+  .hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 80px; align-items: center; }
 
-  .card {
-    position: relative;
-    width: 58px; height: 80px;
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4);
-    color: #111;
-    font-family: Arial, Tahoma, sans-serif;
-    user-select: none;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    transition: transform 0.15s, box-shadow 0.15s;
-    animation: cardDrop 0.35s ease;
-    cursor: pointer;
-  }
-  .card.red { color: #c62828; }
-  .card .rank-big { font-size: 1.5rem; font-weight: bold; margin-bottom: 2px; }
-  .card .suit-big { font-size: 2.1rem; line-height: 1; }
-  .table .card { width: 70px; height: 96px; box-shadow: 0 4px 0 #999, 0 5px 12px rgba(0,0,0,0.5); cursor: default; }
-  .table .card .rank-big { font-size: 1.7rem; }
-  .table .card .suit-big { font-size: 2.5rem; }
-
-  .hand .card.playable { outline: 3px solid #ffeb3b; animation: pulse 1.5s infinite; }
-  .hand .card.playable:active { transform: translateY(-8px); box-shadow: 0 8px 0 #999, 0 10px 16px rgba(0,0,0,0.5); }
-  .hand .card.disabled { opacity: 0.55; cursor: not-allowed; }
-
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4), 0 0 0 0 rgba(255,235,59,0.6); }
-    50% { box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4), 0 0 0 8px rgba(255,235,59,0); }
-  }
-  @keyframes cardDrop { from { transform: translateY(-30px) scale(0.7); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-
-  .trump-chooser { text-align: center; margin: 10px 0; padding: 12px; background: rgba(0,0,0,0.45); border-radius: 12px; animation: popIn 0.4s ease; }
+  .trump-chooser { text-align: center; margin: 10px 0; padding: 12px; background: rgba(0,0,0,0.45); border-radius: 12px; }
   .trump-chooser p { margin: 0 0 8px; font-size: 0.95rem; }
   .trump-chooser button { font-size: 1.8rem; padding: 6px 14px; background: #fff; color: #000; box-shadow: 0 3px 0 #666; min-width: 50px; border-radius: 12px; }
   .trump-chooser button[data-suit="♥"], .trump-chooser button[data-suit="♦"] { color: #c62828; }
   .message { text-align: center; margin-top: 10px; min-height: 24px; color: #ffeb3b; font-weight: bold; font-size: 0.95rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
   #chatBtn { position: fixed; bottom: 14px; left: 14px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(180deg, #2196f3, #1565c0); color: #fff; font-size: 1.3rem; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.4); z-index: 100; }
-  #chatPanel { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 2px solid #ffb300; border-radius: 16px 16px 0 0; max-height: 60vh; display: flex; flex-direction: column; z-index: 101; transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); }
+  #chatPanel { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 2px solid #ffb300; border-radius: 16px 16px 0 0; max-height: 60vh; display: flex; flex-direction: column; z-index: 101; transform: translateY(100%); transition: transform 0.3s ease; }
   #chatPanel.open { transform: translateY(0); }
   #chatHeader { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid #333; }
   #chatHeader button { padding: 4px 10px; font-size: 0.85rem; background: #444; color: #fff; box-shadow: none; }
@@ -203,8 +162,8 @@
   .chat-msg .sender { font-size: 0.75rem; color: #ffb300; font-weight: bold; }
   #chatInput { display: flex; padding: 8px; border-top: 1px solid #333; gap: 6px; }
   #chatInput input { flex: 1; width: auto; text-align: right; }
-  .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 200; padding: 16px; animation: fadeIn 0.3s; overflow-y: auto; }
-  .modal .box { background: linear-gradient(180deg, #1b5e20, #0a2e10); border: 2px solid #ffb300; border-radius: 16px; padding: 20px; text-align: center; max-width: 450px; width: 100%; animation: popIn 0.4s ease; box-shadow: 0 0 40px rgba(255,179,0,0.5); margin: auto; }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 200; padding: 16px; overflow-y: auto; }
+  .modal .box { background: linear-gradient(180deg, #1b5e20, #0a2e10); border: 2px solid #ffb300; border-radius: 16px; padding: 20px; text-align: center; max-width: 450px; width: 100%; box-shadow: 0 0 40px rgba(255,179,0,0.5); margin: auto; }
   .modal h2 { margin: 0 0 12px; font-size: 1.5rem; }
   .modal p { margin: 8px 0; line-height: 1.6; }
   .score-line { font-size: 1.05rem; margin: 12px 0; }
@@ -381,13 +340,53 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+/* ==================== کارت با استایل داخلی ==================== */
 function cardHTML(card, opts={}) {
-  const red = (card.suit === '♥' || card.suit === '♦') ? ' red' : '';
-  const cls = (opts.className || '') + red;
-  return `<div class="card${cls}">
-    <span class="rank-big">${card.rank}</span>
-    <span class="suit-big">${card.suit}</span>
-  </div>`;
+  const isRed = (card.suit === '♥' || card.suit === '♦');
+  const color = isRed ? '#c62828' : '#111';
+  const isBig = opts.big === true;
+  const w = isBig ? 70 : 58;
+  const h = isBig ? 96 : 80;
+  const rankFS = isBig ? 26 : 22;
+  const suitFS = isBig ? 38 : 32;
+  const clickable = opts.clickable === true;
+  const disabled = opts.disabled === true;
+  const outline = clickable ? '3px solid #ffeb3b' : 'none';
+  const opacity = disabled ? '0.55' : '1';
+  const cursor = clickable ? 'pointer' : 'default';
+  const dataId = opts.dataId || '';
+
+  return '<div class="card" ' +
+    'data-id="' + dataId + '" ' +
+    'style="' +
+      'display:inline-flex;' +
+      'flex-direction:column;' +
+      'align-items:center;' +
+      'justify-content:center;' +
+      'width:' + w + 'px;' +
+      'height:' + h + 'px;' +
+      'background:#fff;' +
+      'border-radius:10px;' +
+      'border:1px solid #ccc;' +
+      'box-shadow:0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4);' +
+      'color:' + color + ';' +
+      'font-family:Arial,Tahoma,sans-serif;' +
+      'user-select:none;' +
+      'flex-shrink:0;' +
+      'line-height:1;' +
+      'margin:3px;' +
+      'cursor:' + cursor + ';' +
+      'outline:' + outline + ';' +
+      'outline-offset:0;' +
+      'opacity:' + opacity + ';' +
+      'box-sizing:border-box;' +
+      'padding:4px;' +
+      'vertical-align:middle;' +
+      'transition:transform 0.15s;' +
+    '">' +
+      '<span style="font-size:' + rankFS + 'px;font-weight:bold;margin-bottom:2px;">' + card.rank + '</span>' +
+      '<span style="font-size:' + suitFS + 'px;line-height:1;">' + card.suit + '</span>' +
+    '</div>';
 }
 
 function cardBacksHTML(count, maxShow=5) {
@@ -1254,7 +1253,6 @@ function scoreTextForPlayer(view, i) {
 function render(view) {
   currentView = view;
 
-  /* ⬇️ اصلاح اصلی: نمایش لابی برای میزبان در فاز lobby */
   if (view.phase === 'lobby' && isHost) {
     document.getElementById('menu').style.display = 'block';
     document.getElementById('game').style.display = 'none';
@@ -1298,7 +1296,7 @@ function render(view) {
   tableEl.innerHTML = view.trick.map(p => `
     <div class="trick-card ${view.lastTrickWinner === p.player ? 'winner' : ''}">
       <div class="trick-player">${escapeHtml(view.players[p.player].name)}</div>
-      ${cardHTML(p.card)}
+      ${cardHTML(p.card, { big: true })}
     </div>
   `).join('');
   const myLabel = document.getElementById('myLabel');
@@ -1312,21 +1310,21 @@ function render(view) {
   view.myHand.forEach(card => {
     const playable = canPlay(card, view);
     const wrapper = document.createElement('div');
+    wrapper.style.display = 'inline-block';
     wrapper.innerHTML = cardHTML(card, {
-      className: playable ? 'playable' : (view.phase === 'playing' ? 'disabled' : '')
+      clickable: playable,
+      disabled: (view.phase === 'playing' && !playable)
     });
     const cardEl = wrapper.firstElementChild;
     if (playable) {
-      cardEl.addEventListener('click', (ev) => {
+      const handler = (ev) => {
         ev.preventDefault();
+        ev.stopPropagation();
         if (isHost) playCard(my, card.id);
         else sendToHost({ type: 'playCard', cardId: card.id });
-      });
-      cardEl.addEventListener('touchstart', (ev) => {
-        ev.preventDefault();
-        if (isHost) playCard(my, card.id);
-        else sendToHost({ type: 'playCard', cardId: card.id });
-      }, { passive: false });
+      };
+      cardEl.addEventListener('click', handler);
+      cardEl.addEventListener('touchend', handler, { passive: false });
     }
     handEl.appendChild(cardEl);
   });
