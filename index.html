@@ -1253,6 +1253,14 @@ function scoreTextForPlayer(view, i) {
 
 function render(view) {
   currentView = view;
+
+  /* ⬇️ اصلاح اصلی: نمایش لابی برای میزبان در فاز lobby */
+  if (view.phase === 'lobby' && isHost) {
+    document.getElementById('menu').style.display = 'block';
+    document.getElementById('game').style.display = 'none';
+    return;
+  }
+
   document.getElementById('menu').style.display = 'none';
   document.getElementById('game').style.display = 'block';
   const my = view.myIndex;
