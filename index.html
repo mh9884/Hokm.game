@@ -86,7 +86,7 @@
   .opponents { display: flex; justify-content: space-around; gap: 6px; margin: 6px 0; }
   .opponent {
     text-align: center; flex: 1;
-    background: rgba(0,0,0,0.25); border-radius: 10px; padding: 6px 4px;
+    background: rgba(0,0,0,0.25); border-radius: 10px; padding: 8px 4px;
     transition: background 0.3s, transform 0.3s;
     border: 1px solid rgba(255,255,255,0.06);
   }
@@ -94,8 +94,37 @@
   .opponent .name { font-size: 0.8rem; margin-bottom: 2px; font-weight: bold; }
   .opponent .score { font-size: 0.7rem; margin-bottom: 4px; background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 6px; display: inline-block; }
   .opponent .score b { color: #ffeb3b; }
-  .opponent .cards { font-size: 1.1rem; letter-spacing: 0; line-height: 1; direction: ltr; margin: 2px 0; }
+  .opponent .cards-stack {
+    display: flex; justify-content: center; align-items: center;
+    height: 44px; margin: 4px 0;
+    direction: ltr;
+  }
   .opponent .count { font-size: 0.7rem; opacity: 0.85; }
+
+  /* ====== پشت کارت پاسور ====== */
+  .card-back {
+    display: inline-block;
+    width: 30px; height: 42px;
+    border-radius: 5px;
+    background:
+      repeating-linear-gradient(45deg, #8b0000 0 3px, #c62828 3px 6px),
+      #c62828;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    position: relative;
+    margin-left: -22px;
+    flex-shrink: 0;
+  }
+  .card-back:first-child { margin-left: 0; }
+  .card-back::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.7);
+    background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%);
+  }
+
   .table {
     background: linear-gradient(180deg, #2e7d32, #1b5e20);
     border: 2px solid #81c784; border-radius: 14px;
@@ -130,6 +159,7 @@
     justify-content: center;
     line-height: 1;
     transition: transform 0.15s, box-shadow 0.15s;
+    animation: cardDrop 0.35s ease;
   }
   .card.red { color: #c62828; }
   .card .rank-big { font-size: 1.5rem; font-weight: bold; margin-bottom: 2px; }
@@ -359,6 +389,16 @@ function cardHTML(card, opts={}) {
   </div>`;
 }
 
+/* ============ پشت کارت برای حریف‌ها ============ */
+function cardBacksHTML(count, maxShow=5) {
+  const show = Math.min(count, maxShow);
+  let html = '';
+  for (let i = 0; i < show; i++) {
+    html += '<div class="card-back"></div>';
+  }
+  return html;
+}
+
 function showModal(html) {
   document.getElementById('modalBox').innerHTML = html;
   document.getElementById('modal').classList.remove('hidden');
@@ -535,7 +575,6 @@ function handleDataFromClient(slot, data) {
   }
 }
 
-/* ============ initState — اصلاح شده ============ */
 function initState() {
   const emptyHands = {};
   for (let i = 0; i < playerCount; i++) emptyHands[i] = [];
@@ -1245,11 +1284,11 @@ function render(view) {
       (my === 0 && i === 2) || (my === 2 && i === 0) ||
       (my === 1 && i === 3) || (my === 3 && i === 1)
     );
-    const cnt = view.opponentCounts[i];
+    const cnt = view.opponentCounts[i] || 0;
     div.innerHTML = `
       <div class="name">${view.hakem === i ? '👑 ' : ''}${escapeHtml(view.players[i].name || 'ب'+i+1)} ${partner ? '🤝' : ''}</div>
       <div class="score">${scoreTextForPlayer(view, i)}</div>
-      <div class="cards">${'🂠'.repeat(Math.min(cnt, 8))}${cnt > 8 ? '…' : ''}</div>
+      <div class="cards-stack">${cardBacksHTML(cnt)}</div>
       <div class="count">${cnt} کارت</div>
     `;
     oppEl.appendChild(div);
