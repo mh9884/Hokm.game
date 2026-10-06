@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hokm-v2';
+const CACHE_NAME = 'hokm-v3';
 const ASSETS = [
   './',
   './index.html',
