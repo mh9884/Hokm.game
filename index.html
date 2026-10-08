@@ -22,37 +22,19 @@
 </script>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body {
-    font-family: Tahoma, sans-serif;
-    background: radial-gradient(circle at 50% 0%, #2e7d32, #0a2e10 80%);
-    color: #fff; margin: 0; padding: 8px;
-    min-height: 100vh; overflow-x: hidden;
-  }
+  body { font-family: Tahoma, sans-serif; background: radial-gradient(circle at 50% 0%, #2e7d32, #0a2e10 80%); color: #fff; margin: 0; padding: 8px; min-height: 100vh; overflow-x: hidden; }
   #app { max-width: 720px; margin: 0 auto; }
   h1 { font-size: 1.7rem; text-align: center; margin: 12px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
   h2 { font-size: 1.4rem; text-align: center; margin: 10px 0; }
   h3 { text-align: center; margin: 8px 0; }
-  button {
-    font-family: inherit; padding: 10px 16px;
-    border: none; border-radius: 10px;
-    background: linear-gradient(180deg, #ffc107, #ff9800);
-    color: #222; font-weight: bold; margin: 4px; cursor: pointer;
-    font-size: 0.95rem;
-    box-shadow: 0 3px 0 #b26a00, 0 4px 8px rgba(0,0,0,0.3);
-  }
+  button { font-family: inherit; padding: 10px 16px; border: none; border-radius: 10px; background: linear-gradient(180deg, #ffc107, #ff9800); color: #222; font-weight: bold; margin: 4px; cursor: pointer; font-size: 0.95rem; box-shadow: 0 3px 0 #b26a00, 0 4px 8px rgba(0,0,0,0.3); }
   button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #b26a00; }
   button:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: 0 3px 0 #555; }
   button.primary { background: linear-gradient(180deg, #66bb6a, #388e3c); color: #fff; box-shadow: 0 3px 0 #1b5e20; }
   button.blue { background: linear-gradient(180deg, #42a5f5, #1565c0); color: #fff; box-shadow: 0 3px 0 #0d3d7a; }
   button.gray { background: linear-gradient(180deg, #757575, #424242); color: #fff; box-shadow: 0 3px 0 #222; }
   button.bam { background: linear-gradient(180deg, #ff5252, #c62828); color: #fff; box-shadow: 0 3px 0 #7f0000; font-size: 1.1rem; padding: 12px 24px; }
-  input, select {
-    padding: 10px 12px; border-radius: 10px;
-    border: 2px solid #1b5e20;
-    width: 170px; text-align: center;
-    font-size: 1rem; font-family: inherit;
-    background: #fff; color: #222; outline: none; margin: 4px;
-  }
+  input, select { padding: 10px 12px; border-radius: 10px; border: 2px solid #1b5e20; width: 170px; text-align: center; font-size: 1rem; font-family: inherit; background: #fff; color: #222; outline: none; margin: 4px; }
   input:focus, select:focus { border-color: #ffb300; }
   .hidden { display: none !important; }
   #menu { text-align: center; margin-top: 20px; }
@@ -78,26 +60,10 @@
   .opponent .score b { color: #ffeb3b; }
   .opponent .cards-stack { display: flex; justify-content: center; align-items: center; height: 44px; margin: 4px 0; direction: ltr; }
   .opponent .count { font-size: 0.7rem; opacity: 0.85; }
-  .card-back {
-    display: inline-block; width: 30px; height: 42px; border-radius: 5px;
-    background: repeating-linear-gradient(45deg, #8b0000 0 3px, #c62828 3px 6px), #c62828;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    position: relative; margin-left: -22px; flex-shrink: 0;
-  }
+  .card-back { display: inline-block; width: 30px; height: 42px; border-radius: 5px; background: repeating-linear-gradient(45deg, #8b0000 0 3px, #c62828 3px 6px), #c62828; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.5); position: relative; margin-left: -22px; flex-shrink: 0; }
   .card-back:first-child { margin-left: 0; }
-  .card-back::after {
-    content: ''; position: absolute; inset: 3px;
-    border-radius: 3px; border: 1px solid rgba(255,255,255,0.7);
-    background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%);
-  }
-  .table {
-    background: linear-gradient(180deg, #2e7d32, #1b5e20);
-    border: 2px solid #81c784; border-radius: 14px;
-    min-height: 140px; display: flex; justify-content: center; align-items: center;
-    gap: 14px; margin: 8px 0; padding: 10px; flex-wrap: wrap;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
-  }
+  .card-back::after { content: ''; position: absolute; inset: 3px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.7); background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%); }
+  .table { background: linear-gradient(180deg, #2e7d32, #1b5e20); border: 2px solid #81c784; border-radius: 14px; min-height: 140px; display: flex; justify-content: center; align-items: center; gap: 14px; margin: 8px 0; padding: 10px; flex-wrap: wrap; box-shadow: inset 0 0 20px rgba(0,0,0,0.4); }
   .trick-card { text-align: center; }
   .trick-player { font-size: 0.7rem; margin-bottom: 3px; opacity: 0.9; font-weight: bold; }
   .my-area { margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 12px; padding: 8px 6px; border: 1px solid rgba(255,255,255,0.06); }
@@ -107,28 +73,7 @@
   .my-label .score { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 2px 8px; margin-right: 6px; font-size: 0.75rem; display: inline-block; }
   .my-label .score b { color: #ffeb3b; }
   .hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 80px; align-items: center; }
-  .card {
-    display: inline-flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 58px !important;
-    height: 80px !important;
-    background: #fff !important;
-    border-radius: 10px !important;
-    border: 1px solid #ccc !important;
-    box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4) !important;
-    color: #111;
-    font-family: Arial, Tahoma, sans-serif !important;
-    margin: 3px !important;
-    flex-shrink: 0 !important;
-    line-height: 1 !important;
-    box-sizing: border-box !important;
-    padding: 4px !important;
-    vertical-align: middle !important;
-    user-select: none;
-    position: relative;
-  }
+  .card { display: inline-flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; width: 58px !important; height: 80px !important; background: #fff !important; border-radius: 10px !important; border: 1px solid #ccc !important; box-shadow: 0 3px 0 #999, 0 4px 10px rgba(0,0,0,0.4) !important; color: #111; font-family: Arial, Tahoma, sans-serif !important; margin: 3px !important; flex-shrink: 0 !important; line-height: 1 !important; box-sizing: border-box !important; padding: 4px !important; vertical-align: middle !important; user-select: none; position: relative; }
   .card.red { color: #c62828 !important; }
   .card.big { width: 70px !important; height: 96px !important; }
   .card .r { font-size: 22px !important; font-weight: bold !important; margin-bottom: 2px !important; line-height: 1 !important; }
@@ -143,7 +88,6 @@
   .trump-chooser button[data-suit="♥"], .trump-chooser button[data-suit="♦"] { color: #c62828; }
   .bam-box { text-align: center; margin: 10px 0; padding: 10px; background: rgba(198,40,40,0.35); border: 2px solid #ff5252; border-radius: 12px; animation: bamPulse 1.5s infinite; }
   .bam-box p { margin: 0 0 6px; font-size: 0.85rem; }
-  .bam-badge { display: inline-block; background: #ff5252; color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin: 2px; animation: bamPulse 1s infinite; }
   .message { text-align: center; margin-top: 10px; min-height: 24px; color: #ffeb3b; font-weight: bold; font-size: 0.95rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
   #chatBtn { position: fixed; bottom: 14px; left: 14px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(180deg, #2196f3, #1565c0); color: #fff; font-size: 1.3rem; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.4); z-index: 100; }
   #chatPanel { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 2px solid #ffb300; border-radius: 16px 16px 0 0; max-height: 60vh; display: flex; flex-direction: column; z-index: 101; transform: translateY(100%); transition: transform 0.3s ease; }
@@ -181,7 +125,7 @@
 </style>
 </head>
 <body>
-<div id="versionTag">v8 ✓</div>
+<div id="versionTag">v9 ✓</div>
 <div id="app">
   <div id="menu">
     <h1>🃏 حکم حرفه‌ای</h1>
@@ -239,9 +183,9 @@
       <button data-suit="♣">♣</button>
     </div>
     <div class="bam-box hidden" id="bamBox">
-      <p>🔥 همه‌ی ۱۳ دست رو می‌بری؟</p>
+      <p>🔥 بام می‌زنی؟</p>
       <button id="bamBtn" class="bam">🔥 بام!</button>
-      <p class="hint" style="margin:6px 0 0;">۱۳ دست = قهرمانی | ۸+ دست = ۲ امتیاز | کمتر = باخت</p>
+      <p class="hint" style="margin:6px 0 0;">۱۳ دست = قهرمانی | ۷+ دست = ۲ امتیاز | کمتر = باخت</p>
     </div>
     <div class="my-area" id="myArea">
       <div class="my-label" id="myLabel"></div>
@@ -267,13 +211,13 @@
 </div>
 
 <script>
-const APP_VERSION = 'v8';
+const APP_VERSION = 'v9';
 const CREATE_ROOM_PASSWORD = "138500";
 const SUITS = ['♠', '♥', '♦', '♣'];
 const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
 const SUIT_ORDER = { '♠': 0, '♥': 1, '♦': 2, '♣': 3 };
 const INITIAL_DEAL = 5;
-const BAM_AFTER_TRICKS = 5;
+const BAM_TRICK = 5;
 
 let peer = null;
 let hostConnections = {};
@@ -297,10 +241,7 @@ let scanCallback = null;
 
 function getOrCreateId() {
   let id = localStorage.getItem('hokm_id');
-  if (!id) {
-    id = 'p' + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem('hokm_id', id);
-  }
+  if (!id) { id = 'p' + Math.random().toString(36).slice(2, 10); localStorage.setItem('hokm_id', id); }
   return id;
 }
 const MY_ID = getOrCreateId();
@@ -333,21 +274,18 @@ const sndBam   = () => [400,600,800,1200].forEach((f,i)=>setTimeout(()=>beep(f,0
 
 function makeDeck() {
   const d = [];
-  for (const s of SUITS) for (let i=0;i<RANKS.length;i++)
-    d.push({ suit: s, rank: RANKS[i], value: i+2, id: s+RANKS[i] });
+  for (const s of SUITS) for (let i=0;i<RANKS.length;i++) d.push({ suit: s, rank: RANKS[i], value: i+2, id: s+RANKS[i] });
   return d;
 }
 function shuffle(a) {
-  for (let i=a.length-1;i>0;i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
+  for (let i=a.length-1;i>0;i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; }
   return a;
 }
 function sortHand(h) {
   return h.sort((a,b) => a.suit !== b.suit ? SUIT_ORDER[a.suit] - SUIT_ORDER[b.suit] : a.value - b.value);
 }
 const cardsPerPlayer = n => ({2:13, 3:17, 4:13}[n]);
+const majorityOf = n => Math.floor(n / 2) + 1;
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -355,18 +293,12 @@ function escapeHtml(s) {
 
 function cardHTML(card, opts={}) {
   const isRed = (card.suit === '♥' || card.suit === '♦');
-  const big = opts.big === true;
-  const playable = opts.playable === true;
-  const disabled = opts.disabled === true;
   let cls = 'card';
   if (isRed) cls += ' red';
-  if (big) cls += ' big';
-  if (playable) cls += ' playable';
-  if (disabled) cls += ' disabled';
-  return '<div class="' + cls + '">' +
-    '<span class="r">' + card.rank + '</span>' +
-    '<span class="s">' + card.suit + '</span>' +
-  '</div>';
+  if (opts.big) cls += ' big';
+  if (opts.playable) cls += ' playable';
+  if (opts.disabled) cls += ' disabled';
+  return '<div class="' + cls + '"><span class="r">' + card.rank + '</span><span class="s">' + card.suit + '</span></div>';
 }
 function cardBacksHTML(count, maxShow=5) {
   const show = Math.min(count, maxShow);
@@ -375,13 +307,8 @@ function cardBacksHTML(count, maxShow=5) {
   return html;
 }
 
-function showModal(html) {
-  document.getElementById('modalBox').innerHTML = html;
-  document.getElementById('modal').classList.remove('hidden');
-}
-function hideModal() {
-  document.getElementById('modal').classList.add('hidden');
-}
+function showModal(html) { document.getElementById('modalBox').innerHTML = html; document.getElementById('modal').classList.remove('hidden'); }
+function hideModal() { document.getElementById('modal').classList.add('hidden'); }
 
 function sendToSlot(slot, data) {
   if (isOfflineMode) {
@@ -400,6 +327,7 @@ function sendToHost(data) {
   }
 }
 
+/* ============ ONLINE ============ */
 document.getElementById('createBtn').onclick = () => {
   initAudio(); saveName();
   showModal(`
@@ -432,8 +360,7 @@ function doCreateRoom() {
     document.getElementById('status').innerHTML = 'کد اتاق: <code>'+code+'</code><br><small class="hint">کد رو برای دوستات بفرست</small>';
     document.getElementById('lobby').classList.remove('hidden');
     document.getElementById('totalCount').textContent = playerCount;
-    initState();
-    updateLobby();
+    initState(); updateLobby();
   });
   peer.on('connection', (conn) => {
     conn.on('data', (data) => {
@@ -540,7 +467,7 @@ function initState() {
     trickNumber: 0, totalTricks: 0,
     gameScore: playerCount === 4 ? [0, 0] : Array(playerCount).fill(0),
     message: '', roundWinner: null, matchWinner: null, lastTrickWinner: null,
-    bam: null, bamTeam: null, isKot: false, resolveLock: false
+    bam: null, bamTeam: null, isKot: false, bamResult: null, resolveLock: false
   };
 }
 
@@ -563,6 +490,7 @@ function updateLobby() {
   document.getElementById('lobbyHint').textContent = connected >= playerCount ? '✅ همه حاضرند!' : `منتظر ${playerCount - connected} بازیکن...`;
 }
 
+/* ============ OFFLINE ============ */
 document.getElementById('createOfflineBtn').onclick = () => {
   initAudio(); saveName();
   showModal(`
@@ -602,12 +530,7 @@ async function prepareNextGuest() {
   stopQRCamera();
   let nextSlot = 1;
   while (nextSlot < playerCount && offlineConns[nextSlot]) nextSlot++;
-  if (nextSlot >= playerCount) {
-    hideModal();
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('lobbyHint').textContent = '✅ همه حاضرند!';
-    return;
-  }
+  if (nextSlot >= playerCount) { hideModal(); document.getElementById('startBtn').disabled = false; document.getElementById('lobbyHint').textContent = '✅ همه حاضرند!'; return; }
   const conn = new RTCPeerConnection({ iceServers: [] });
   const channel = conn.createDataChannel('game', { ordered: true });
   pendingConn = conn; pendingChannel = channel;
@@ -626,11 +549,7 @@ async function prepareNextGuest() {
         } else handleDataFromClient(nextSlot, data);
       } catch(err) {}
     };
-    channel.onclose = () => {
-      state.players[nextSlot].connected = false;
-      delete offlineConns[nextSlot];
-      updateLobby(); broadcast();
-    };
+    channel.onclose = () => { state.players[nextSlot].connected = false; delete offlineConns[nextSlot]; updateLobby(); broadcast(); };
     setTimeout(() => {
       let ns = 1;
       while (ns < playerCount && offlineConns[ns]) ns++;
@@ -642,8 +561,7 @@ async function prepareNextGuest() {
           <button class="gray" onclick="finishOfflineSetup()" style="width:100%;">▶️ شروع با همین تعداد</button>
         `);
       } else {
-        hideModal();
-        document.getElementById('startBtn').disabled = false;
+        hideModal(); document.getElementById('startBtn').disabled = false;
         document.getElementById('lobbyHint').textContent = '✅ همه حاضرند!';
       }
     }, 400);
@@ -675,9 +593,7 @@ function finishOfflineSetup() {
 function waitForIce(pc, timeout) {
   return new Promise(resolve => {
     if (pc.iceGatheringState === 'complete') return resolve();
-    const check = () => {
-      if (pc.iceGatheringState === 'complete') { pc.removeEventListener('icegatheringstatechange', check); resolve(); }
-    };
+    const check = () => { if (pc.iceGatheringState === 'complete') { pc.removeEventListener('icegatheringstatechange', check); resolve(); } };
     pc.addEventListener('icegatheringstatechange', check);
     setTimeout(resolve, timeout);
   });
@@ -730,12 +646,7 @@ document.getElementById('joinOfflineBtn').onclick = () => {
   document.getElementById('cancelOfflineBtn').onclick = () => { stopQRCamera(); hideModal(); };
   scanCallback = async (data) => {
     const parts = data.split('|');
-    if (parts[0] !== 'H') {
-      if (navigator.vibrate) navigator.vibrate(30);
-      scanCallback = null;
-      setTimeout(() => { document.getElementById('joinOfflineBtn').click(); }, 200);
-      return;
-    }
+    if (parts[0] !== 'H') { if (navigator.vibrate) navigator.vibrate(30); scanCallback = null; setTimeout(() => { document.getElementById('joinOfflineBtn').click(); }, 200); return; }
     const hostSlot = parseInt(parts[1]);
     const sdp = decompressSDP(parts[2]);
     try { await guestHandleOffer(sdp, hostSlot); } catch(err) { alert('خطا: ' + err.message); }
@@ -800,13 +711,7 @@ async function openCameraAndScan() {
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       let code = null;
       try { code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' }); } catch(e) {}
-      if (code && code.data && scanCallback) {
-        const cb = scanCallback;
-        scanCallback = null;
-        stopQRCamera();
-        cb(code.data);
-        return;
-      }
+      if (code && code.data && scanCallback) { const cb = scanCallback; scanCallback = null; stopQRCamera(); cb(code.data); return; }
     }
     animationFrame = requestAnimationFrame(scan);
   };
@@ -837,9 +742,7 @@ function compressSDP(sdp) {
   const cands = [];
   const re = /a=candidate:\S+ \d+ udp \d+ (\S+) (\d+) typ (\w+)/g;
   let m;
-  while ((m = re.exec(sdp)) !== null) {
-    if (m[3] === 'host' || m[3] === 'srflx') cands.push(m[1] + ':' + m[2]);
-  }
+  while ((m = re.exec(sdp)) !== null) { if (m[3] === 'host' || m[3] === 'srflx') cands.push(m[1] + ':' + m[2]); }
   return [ufrag, pwd, fp, setup, cands.join(',')].join('~');
 }
 function decompressSDP(str) {
@@ -864,6 +767,7 @@ function decompressSDP(str) {
   return lines.join('\r\n') + '\r\n';
 }
 
+/* ============ GAME LOGIC ============ */
 document.getElementById('startBtn').onclick = () => startNewRound(true);
 
 function pickNextHakem() {
@@ -906,7 +810,8 @@ function startNewRound(isFirst=false) {
   state.tricksWon = Array(playerCount).fill(0);
   state.trickNumber = 1; state.totalTricks = cpp;
   state.roundWinner = null; state.matchWinner = null; state.lastTrickWinner = null;
-  state.bam = null; state.bamTeam = null; state.isKot = false; state.resolveLock = false;
+  state.bam = null; state.bamTeam = null; state.isKot = false; state.bamResult = null;
+  state.resolveLock = false;
   state.message = state.hakem === myIndex ? '👑 تو حاکمی! حکم را انتخاب کن' : `👑 ${state.players[state.hakem].name} حاکم است...`;
   broadcast();
 }
@@ -923,7 +828,7 @@ function makeView(p) {
     roundWinner: state.roundWinner, matchWinner: state.matchWinner,
     lastTrickWinner: state.lastTrickWinner, chat: state.chat,
     bam: state.bam, bamTeam: state.bamTeam, isKot: state.isKot,
-    resolveLock: state.resolveLock
+    bamResult: state.bamResult, resolveLock: state.resolveLock
   };
 }
 
@@ -946,19 +851,17 @@ function chooseTrump(player, suit) {
 }
 
 function callBam(player) {
-  if (!state || state.bam) return;
+  if (!state || state.bam !== null) return;
   if (state.phase !== 'playing') return;
-  if (state.trickNumber <= BAM_AFTER_TRICKS) return;
+  if (state.trickNumber !== BAM_TRICK) return;
+  if (state.turn !== player) return;
+  if (state.resolveLock) return;
 
   let bamTeam = null;
-  if (state.playerCount === 4) {
-    bamTeam = (player === 0 || player === 2) ? 0 : 1;
-  }
+  if (state.playerCount === 4) bamTeam = (player === 0 || player === 2) ? 0 : 1;
   state.bam = player;
   state.bamTeam = bamTeam;
-
-  const callerName = state.players[player].name;
-  state.message = `🔥 ${callerName} بام زد!`;
+  state.message = `🔥 ${state.players[player].name} بام زد!`;
   sndBam();
   broadcast();
 }
@@ -997,18 +900,29 @@ function playCard(player, cardId) {
   }
 }
 
+function shouldRoundEnd() {
+  const total = state.totalTricks;
+  const majority = majorityOf(total);
+  if (state.bam !== null) return state.trickNumber >= total;
+  if (state.playerCount === 4) {
+    const tA = state.tricksWon[0] + state.tricksWon[2];
+    const tB = state.tricksWon[1] + state.tricksWon[3];
+    if (tA >= majority || tB >= majority) return true;
+  } else {
+    for (let i = 0; i < state.playerCount; i++) if (state.tricksWon[i] >= majority) return true;
+  }
+  return state.trickNumber >= total;
+}
+
 function resolveTrick() {
   const trump = state.trump;
   let winner = state.trick[0].player;
   let bestCard = state.trick[0].card;
-
   for (let i = 1; i < state.trick.length; i++) {
     const { player, card } = state.trick[i];
     if (card.suit === bestCard.suit) {
       if (card.value > bestCard.value) { winner = player; bestCard = card; }
-    } else if (card.suit === trump && bestCard.suit !== trump) {
-      winner = player; bestCard = card;
-    }
+    } else if (card.suit === trump && bestCard.suit !== trump) { winner = player; bestCard = card; }
   }
 
   state.tricksWon[winner]++;
@@ -1017,11 +931,7 @@ function resolveTrick() {
   state.message = `🎯 ${state.players[winner].name} این دست را برد`;
   sndTrick();
 
-  if (state.trickNumber >= state.totalTricks) {
-    endRound();
-    broadcast();
-    return;
-  }
+  if (shouldRoundEnd()) { endRound(); broadcast(); return; }
 
   state.trickNumber++;
   state.trick = [];
@@ -1032,96 +942,81 @@ function resolveTrick() {
 function endRound() {
   let roundWinner = null;
   let isKot = false;
-  let isBamWin = false;
-  let isBamPartial = false;
-  let isBamFail = false;
-
-  const bamActive = state.bam !== null;
+  let bamResult = null;
   const total = state.totalTricks;
-  const half = Math.floor(total / 2) + 1;
+  const majority = majorityOf(total);
+  const bamActive = state.bam !== null;
 
-  if (state.playerCount === 4) {
-    const tA = state.tricksWon[0] + state.tricksWon[2];
-    const tB = state.tricksWon[1] + state.tricksWon[3];
-
-    if (bamActive) {
-      const bamTricks = state.bamTeam === 0 ? tA : tB;
-      if (bamTricks === total) {
-        isBamWin = true;
-        roundWinner = state.bamTeam === 0 ? 'A' : 'B';
-      } else if (bamTricks > half - 1 && bamTricks > 7) {
-        isBamPartial = true;
-        roundWinner = state.bamTeam === 0 ? 'A' : 'B';
-      } else {
-        isBamFail = true;
-        roundWinner = state.bamTeam === 0 ? 'B' : 'A';
-      }
+  if (bamActive) {
+    let bamTricks, bamTeamId;
+    if (state.playerCount === 4) {
+      bamTeamId = state.bamTeam;
+      bamTricks = bamTeamId === 0 ? (state.tricksWon[0] + state.tricksWon[2]) : (state.tricksWon[1] + state.tricksWon[3]);
     } else {
-      if (tA === total) { isKot = true; roundWinner = 'A'; }
-      else if (tB === total) { isKot = true; roundWinner = 'B'; }
-      else if (tA > tB) roundWinner = 'A';
-      else if (tB > tA) roundWinner = 'B';
-      else roundWinner = null;
+      bamTeamId = state.bam;
+      bamTricks = state.tricksWon[state.bam];
+    }
+
+    if (bamTricks === total) {
+      bamResult = 'win';
+      state.bamResult = bamResult;
+      state.phase = 'matchover';
+      state.matchWinner = state.playerCount === 4 ? (bamTeamId === 0 ? 'A' : 'B') : state.bam;
+      state.roundWinner = state.matchWinner;
+      state.message = `🏆 بام موفق! قهرمان شد!`;
+      sndMatch();
+      return;
+    } else if (bamTricks >= majority) {
+      bamResult = 'partial';
+      if (state.playerCount === 4) state.gameScore[bamTeamId] += 2;
+      else state.gameScore[state.bam] += 2;
+      roundWinner = state.playerCount === 4 ? (bamTeamId === 0 ? 'A' : 'B') : state.bam;
+    } else {
+      bamResult = 'fail';
+      if (state.playerCount === 4) {
+        const oppTeam = 1 - bamTeamId;
+        roundWinner = oppTeam === 0 ? 'A' : 'B';
+        state.gameScore[oppTeam] += 1;
+      } else {
+        let max = -1, oppWinner = 0;
+        for (let i = 0; i < state.playerCount; i++) {
+          if (i !== state.bam && state.tricksWon[i] > max) { max = state.tricksWon[i]; oppWinner = i; }
+        }
+        roundWinner = oppWinner;
+        state.gameScore[oppWinner] += 1;
+      }
     }
   } else {
-    let max = -1, winners = [];
-    for (let i = 0; i < state.playerCount; i++) {
-      if (state.tricksWon[i] > max) { max = state.tricksWon[i]; winners = [i]; }
-      else if (state.tricksWon[i] === max) winners.push(i);
-    }
-
-    if (bamActive) {
-      const bamTricks = state.tricksWon[state.bam];
-      if (bamTricks === total) {
-        isBamWin = true;
-        roundWinner = state.bam;
-      } else if (bamTricks > 7) {
-        isBamPartial = true;
-        roundWinner = state.bam;
-      } else {
-        isBamFail = true;
-        if (winners.length === 1 && winners[0] !== state.bam) roundWinner = winners[0];
-        else {
-          let otherMax = -1, otherWinner = 0;
-          for (let i = 0; i < state.playerCount; i++) {
-            if (i !== state.bam && state.tricksWon[i] > otherMax) {
-              otherMax = state.tricksWon[i]; otherWinner = i;
-            }
-          }
-          roundWinner = otherWinner;
+    if (state.playerCount === 4) {
+      const tA = state.tricksWon[0] + state.tricksWon[2];
+      const tB = state.tricksWon[1] + state.tricksWon[3];
+      if (tA >= majority && tB === 0) { isKot = true; roundWinner = 'A'; state.gameScore[0] += 2; }
+      else if (tB >= majority && tA === 0) { isKot = true; roundWinner = 'B'; state.gameScore[1] += 2; }
+      else if (tA > tB) { roundWinner = 'A'; state.gameScore[0] += 1; }
+      else if (tB > tA) { roundWinner = 'B'; state.gameScore[1] += 1; }
+    } else {
+      let max = -1, winners = [];
+      for (let i = 0; i < state.playerCount; i++) {
+        if (state.tricksWon[i] > max) { max = state.tricksWon[i]; winners = [i]; }
+        else if (state.tricksWon[i] === max) winners.push(i);
+      }
+      if (winners.length === 1) {
+        const w = winners[0];
+        if (state.tricksWon[w] >= majority) {
+          let othersZero = true;
+          for (let i = 0; i < state.playerCount; i++) if (i !== w && state.tricksWon[i] > 0) { othersZero = false; break; }
+          if (othersZero) { isKot = true; state.gameScore[w] += 2; }
+          else state.gameScore[w] += 1;
+          roundWinner = w;
         }
       }
-    } else {
-      for (let i = 0; i < state.playerCount; i++) {
-        if (state.tricksWon[i] === total) { isKot = true; roundWinner = i; break; }
-      }
-      if (!isKot && winners.length === 1) roundWinner = winners[0];
-      else if (!isKot) roundWinner = null;
     }
   }
 
   state.roundWinner = roundWinner;
   state.isKot = isKot;
+  state.bamResult = bamResult;
 
-  // محاسبه امتیاز
-  if (isBamWin) {
-    state.phase = 'matchover';
-    if (state.playerCount === 4) state.matchWinner = roundWinner;
-    else state.matchWinner = roundWinner;
-    state.message = `🏆 بام موفق! ${state.playerCount === 4 ? (roundWinner === 'A' ? 'تیم ۱' : 'تیم ۲') : state.players[roundWinner].name} قهرمان شد!`;
-    sndMatch();
-    return;
-  }
-
-  if (isKot || isBamPartial) {
-    if (state.playerCount === 4) state.gameScore[roundWinner === 'A' ? 0 : 1] += 2;
-    else state.gameScore[roundWinner] += 2;
-  } else if (roundWinner !== null) {
-    if (state.playerCount === 4) state.gameScore[roundWinner === 'A' ? 0 : 1] += 1;
-    else state.gameScore[roundWinner] += 1;
-  }
-
-  // بررسی پایان بازی
   const finished = state.gameScore.some(s => s >= state.targetScore);
   if (finished) {
     state.phase = 'matchover';
@@ -1134,12 +1029,10 @@ function endRound() {
   }
 }
 
+/* ============ CHAT ============ */
 function addChat(fromSlot, text) {
   if (!state || !text) return;
-  state.chat.push({
-    from: state.players[fromSlot].name || `بازیکن ${fromSlot+1}`,
-    text: text.slice(0, 200), time: Date.now(), slot: fromSlot
-  });
+  state.chat.push({ from: state.players[fromSlot].name || `بازیکن ${fromSlot+1}`, text: text.slice(0, 200), time: Date.now(), slot: fromSlot });
   if (state.chat.length > 100) state.chat = state.chat.slice(-100);
   sndChat(); broadcast();
 }
@@ -1153,15 +1046,8 @@ function sendChat() {
 }
 document.getElementById('chatSend').onclick = sendChat;
 document.getElementById('chatText').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
-document.getElementById('chatBtn').onclick = () => {
-  chatOpen = true;
-  document.getElementById('chatPanel').classList.add('open');
-  if (currentView) renderChat(currentView);
-};
-document.getElementById('chatClose').onclick = () => {
-  chatOpen = false;
-  document.getElementById('chatPanel').classList.remove('open');
-};
+document.getElementById('chatBtn').onclick = () => { chatOpen = true; document.getElementById('chatPanel').classList.add('open'); if (currentView) renderChat(currentView); };
+document.getElementById('chatClose').onclick = () => { chatOpen = false; document.getElementById('chatPanel').classList.remove('open'); };
 function renderChat(view) {
   const box = document.getElementById('chatMessages');
   const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 50;
@@ -1174,6 +1060,7 @@ function renderChat(view) {
   if (nearBottom) box.scrollTop = box.scrollHeight;
 }
 
+/* ============ VALIDATE ============ */
 function canPlay(card, view) {
   if (view.phase !== 'playing' || view.turn !== view.myIndex) return false;
   if (view.resolveLock) return false;
@@ -1185,13 +1072,17 @@ function canPlay(card, view) {
   return true;
 }
 
-function bamAvailable(view, playerIdx) {
-  if (!view || view.phase !== 'playing') return false;
+function canBam(view, playerIdx) {
+  if (!view) return false;
+  if (view.phase !== 'playing') return false;
   if (view.bam !== null) return false;
-  if (view.trickNumber <= BAM_AFTER_TRICKS) return false;
+  if (view.trickNumber !== BAM_TRICK) return false;
+  if (view.turn !== playerIdx) return false;
+  if (view.resolveLock) return false;
   return true;
 }
 
+/* ============ RENDER ============ */
 let lastRenderedTurn = -1;
 let lastRenderedPhase = '';
 
@@ -1227,8 +1118,7 @@ function render(view) {
   }
   info += ` <span class="hint">(تا ${view.targetScore})</span>`;
   if (view.bam !== null) {
-    const bamName = view.players[view.bam].name;
-    info += ` <span style="color:#ff5252;font-weight:bold;">🔥 بام: ${escapeHtml(bamName)}</span>`;
+    info += ` <span style="color:#ff5252;font-weight:bold;">🔥 بام: ${escapeHtml(view.players[view.bam].name)}</span>`;
   }
   document.getElementById('info').innerHTML = info;
 
@@ -1245,10 +1135,7 @@ function render(view) {
          (view.bamTeam === 1 && (i === 1 || i === 3))));
     if (isBamCaller) cls += ' bam-called';
     div.className = cls;
-    const partner = pc === 4 && (
-      (my === 0 && i === 2) || (my === 2 && i === 0) ||
-      (my === 1 && i === 3) || (my === 3 && i === 1)
-    );
+    const partner = pc === 4 && ((my === 0 && i === 2) || (my === 2 && i === 0) || (my === 1 && i === 3) || (my === 3 && i === 1));
     const cnt = view.opponentCounts[i] || 0;
     div.innerHTML = `
       <div class="name">${view.hakem === i ? '👑 ' : ''}${escapeHtml(view.players[i].name || 'ب'+i+1)} ${partner ? '🤝' : ''} ${isBamCaller ? '🔥' : ''}</div>
@@ -1274,8 +1161,7 @@ function render(view) {
        (view.bamTeam === 1 && (my === 1 || my === 3))));
   myLabel.innerHTML = `👤 من: ${escapeHtml(view.players[my].name || 'من')} ` +
     `<span class="score">${scoreTextForPlayer(view, my)}</span>` +
-    (view.hakem === my ? ' 👑' : '') +
-    (isMyBam ? ' 🔥' : '');
+    (view.hakem === my ? ' 👑' : '') + (isMyBam ? ' 🔥' : '');
 
   const myArea = document.getElementById('myArea');
   myArea.classList.toggle('turn', view.turn === my && view.phase === 'playing');
@@ -1287,15 +1173,11 @@ function render(view) {
     const playable = canPlay(card, view);
     const wrapper = document.createElement('div');
     wrapper.style.display = 'inline-block';
-    wrapper.innerHTML = cardHTML(card, {
-      playable: playable,
-      disabled: (view.phase === 'playing' && !playable)
-    });
+    wrapper.innerHTML = cardHTML(card, { playable: playable, disabled: (view.phase === 'playing' && !playable) });
     const cardEl = wrapper.firstElementChild;
     if (playable) {
       const handler = (ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
+        ev.preventDefault(); ev.stopPropagation();
         if (isHost) playCard(my, card.id);
         else sendToHost({ type: 'playCard', cardId: card.id });
       };
@@ -1309,18 +1191,13 @@ function render(view) {
   chooser.classList.toggle('hidden', !(view.phase === 'choosing' && view.hakem === my));
 
   const bamBox = document.getElementById('bamBox');
-  const canBamNow = bamAvailable(view, my) && view.turn === my;
+  const canBamNow = canBam(view, my);
   bamBox.classList.toggle('hidden', !canBamNow);
-  const bamBtn = document.getElementById('bamBtn');
-  bamBtn.disabled = !canBamNow;
 
   let msg = view.message || '';
   if (view.phase === 'playing' && !msg) {
-    if (view.resolveLock) {
-      msg = '⏳ در حال جمع‌آوری دست...';
-    } else {
-      msg = view.turn === my ? '👉 نوبت توست' : `نوبت ${escapeHtml(view.players[view.turn] ? view.players[view.turn].name : '...')}`;
-    }
+    if (view.resolveLock) msg = '⏳ در حال جمع‌آوری دست...';
+    else msg = view.turn === my ? '👉 نوبت توست' : `نوبت ${escapeHtml(view.players[view.turn] ? view.players[view.turn].name : '...')}`;
   }
   if (view.phase === 'choosing' && view.hakem !== my) {
     msg = `⏳ ${escapeHtml(view.players[view.hakem].name)} در حال انتخاب حکم...`;
@@ -1348,24 +1225,9 @@ function showRoundOverModal(view) {
   } else {
     winnerText = view.roundWinner === my ? '🎉 بردی!' : `😔 ${escapeHtml(view.players[view.roundWinner].name)} برد`;
   }
-
-  if (view.isKot) winnerText += ' 💥 کت!';
-  if (view.bam !== null) {
-    const bamName = escapeHtml(view.players[view.bam].name);
-    const bamTeamText = view.playerCount === 4
-      ? (view.bamTeam === 0 ? 'تیم ۱' : 'تیم ۲')
-      : bamName;
-    const bamTricks = view.playerCount === 4
-      ? (view.bamTeam === 0 ? (view.tricksWon[0] + view.tricksWon[2]) : (view.tricksWon[1] + view.tricksWon[3]))
-      : view.tricksWon[view.bam];
-    if (bamTricks === view.totalTricks) {
-      winnerText += ' 🔥 بام موفق!';
-    } else if (bamTricks > 7) {
-      winnerText += ` 🔥 بام جزئی (${bamTricks} دست) → ۲ امتیاز`;
-    } else {
-      winnerText += ` 🔥 بام ناموفق (${bamTricks} دست) → باخت`;
-    }
-  }
+  if (view.isKot) winnerText += ' 💥 کت (۲ امتیاز)';
+  if (view.bamResult === 'partial') winnerText += ' 🔥 بام جزئی (۲ امتیاز)';
+  if (view.bamResult === 'fail') winnerText += ' 🔥 بام ناموفق';
 
   let scoreText;
   if (view.playerCount === 4) {
@@ -1380,9 +1242,7 @@ function showRoundOverModal(view) {
     <h2>پایان دور</h2>
     <p>${winnerText}</p>
     <p class="score-line">${scoreText}</p>
-    ${canNext
-      ? `<button class="primary" onclick="requestNextRound()">🔄 دور بعد</button>`
-      : `<p class="hint">منتظر شروع دور بعد...</p>`}
+    ${canNext ? `<button class="primary" onclick="requestNextRound()">🔄 دور بعد</button>` : `<p class="hint">منتظر شروع دور بعد...</p>`}
   `);
 }
 
@@ -1394,9 +1254,12 @@ function showMatchOverModal(view) {
   } else {
     text = view.matchWinner === view.myIndex ? '🏆 تو قهرمان شدی!' : `😔 ${escapeHtml(view.players[view.matchWinner].name)} قهرمان شد`;
   }
+  let sub = '';
+  if (view.bamResult === 'win') sub = '🔥 بام موفق!';
   showModal(`
     <h2>🏁 پایان بازی</h2>
     <p style="font-size:1.2rem;margin:16px 0;">${text}</p>
+    ${sub ? `<p style="color:#ff5252;font-weight:bold;font-size:1.1rem;">${sub}</p>` : ''}
     <button class="primary" onclick="location.reload()">🔄 بازی جدید</button>
   `);
 }
